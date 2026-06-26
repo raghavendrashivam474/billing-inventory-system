@@ -1,47 +1,52 @@
 ﻿# Billing & Inventory Management System
 
-A production-oriented full-stack **Billing & Inventory Management System** built to understand and implement real-world retail operations. This project is being developed as a portfolio and learning project while following professional software engineering practices.
+A production-oriented full-stack **Billing & Inventory Management System** built to understand, design, and implement real-world retail operations using modern software engineering practices.
 
-## Project Goals
-
-* Learn enterprise application architecture
-* Understand retail and inventory workflows
-* Build a scalable backend with clean architecture
-* Implement production-quality APIs and database design
-* Practice documentation, testing, and deployment workflows
+This project is being developed independently as a learning and portfolio project with a strong emphasis on clean architecture, documentation, maintainability, and production-ready development workflows.
 
 ---
 
-## Tech Stack
+# Project Objectives
 
-### Frontend
+* Build a scalable and maintainable enterprise application
+* Understand real-world retail and inventory management workflows
+* Design production-ready REST APIs
+* Learn database modeling and transactional systems
+* Practice clean architecture and modular development
+* Follow professional software engineering processes from planning to deployment
+
+---
+
+# Technology Stack
+
+## Frontend
 
 * React
 * Vite
 * TypeScript
 
-### Backend
+## Backend
 
 * Node.js
 * Express
 * TypeScript
 
-### Database
+## Database
 
 * PostgreSQL
 * Prisma ORM
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```text
 billing-inventory-system/
 │
 ├── frontend/          # React application
 ├── backend/           # Express API
-├── docs/              # Project documentation
-├── database/          # Database-related resources
+├── docs/              # Documentation
+├── database/          # Database resources
 ├── scripts/           # Development scripts
 ├── shared/            # Shared types and utilities
 │
@@ -50,46 +55,123 @@ billing-inventory-system/
 
 ---
 
-## Current Status
+# Current Status
 
-**Current Version:** v0.1.0 — Foundation
+**Current Version:** **v0.2.0 — Backend Foundation**
 
-Completed:
+## Completed
 
 * Project initialization
 * Git repository setup
 * React + Vite + TypeScript frontend
 * Express + TypeScript backend
-* Initial project documentation
+* PostgreSQL configuration
+* Prisma ORM integration
+* Initial database migration
+* Environment configuration
+* Project documentation
 
-In Progress:
+## Currently Working On
 
 * Backend architecture
-* PostgreSQL integration
-* Prisma ORM setup
+* Middleware
+* API foundation
+* Error handling
+* Logging
+* Health endpoints
 
 ---
 
-## Development Philosophy
+# Engineering Principles
 
-This project follows a documentation-first and architecture-first approach.
+This project follows an engineering-first approach.
 
 Every sprint includes:
 
+* Research
 * Planning
+* Architecture
 * Implementation
 * Testing
 * Documentation
-* Sprint report
+* Sprint reports
 * Lessons learned
 
-The goal is not only to build working software but also to document the engineering process behind it.
+The objective is not simply to build software, but to document the complete engineering journey behind it.
 
 ---
 
-## Quick Start
+# Development Workflow
 
-Clone the repository and follow the setup guide:
+Every feature follows a structured lifecycle:
+
+```text
+Research
+    ↓
+Planning
+    ↓
+Architecture
+    ↓
+Implementation
+    ↓
+Testing
+    ↓
+Documentation
+    ↓
+Git Commit
+    ↓
+Release
+```
+
+---
+
+# Project Roadmap
+
+* ✅ Foundation
+* 🔄 Backend Foundation
+* ⏳ Authentication & Authorization
+* ⏳ Product Management
+* ⏳ Supplier Management
+* ⏳ Customer Management
+* ⏳ Purchase Management
+* ⏳ Inventory Management
+* ⏳ Sales & Billing
+* ⏳ Reports & Analytics
+* ⏳ Production Deployment
+
+---
+
+# Documentation
+
+Project documentation is available inside the `docs/` directory.
+
+Documentation includes:
+
+* Project Overview
+* Setup Instructions
+* Folder Structure
+* Sprint Reports
+* Architecture Notes
+* Lessons Learned
+* Technical Decisions
+
+---
+
+# Quick Start
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+```
+
+Navigate into the project:
+
+```bash
+cd billing-inventory-system
+```
+
+Follow the setup guide:
 
 ```text
 docs/setup-instructions.md
@@ -97,22 +179,17 @@ docs/setup-instructions.md
 
 ---
 
-## Project Roadmap
+# Current Progress
 
-* Foundation
-* Backend Architecture
-* Authentication
-* Product Management
-* Supplier Management
-* Customer Management
-* Purchase Management
-* Inventory Management
-* Sales & Billing
-* Reports & Analytics
-* Production Deployment
+| Sprint                                 | Status         |
+| -------------------------------------- | -------------- |
+| Sprint 0 — Project Setup               | ✅ Complete     |
+| Sprint 1.1 — PostgreSQL Configuration  | ✅ Complete     |
+| Sprint 1.2 — Prisma ORM Setup          | ✅ Complete     |
+| Sprint 1.3 — Environment Configuration | 🔄 In Progress |
 
 ---
 
-## License
+# License
 
-This project is developed for learning, experimentation, and portfolio purposes.
+This project is developed for educational, experimentation, and portfolio purposes.
