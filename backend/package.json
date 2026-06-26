@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "accepts": "^2.0.0",
     "acorn": "^8.17.0",
     "acorn-walk": "^8.3.5",
@@ -118,6 +119,7 @@
     "@types/express": "^5.0.6",
     "@types/node": "^26.0.1",
     "nodemon": "^3.1.14",
+    "prisma": "^5.22.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   }

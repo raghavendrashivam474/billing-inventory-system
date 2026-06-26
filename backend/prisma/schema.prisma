@@ -1,0 +1,28 @@
+// ================================
+// Prisma Schema
+// Project: Billing & Inventory Management System
+// Sprint: 1.2 — Prisma ORM Setup
+// ================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ================================
+// System Table
+// Used to verify database connectivity.
+// Business models will be added from Sprint 2.
+// ================================
+
+model SystemHealth {
+  id        Int      @id @default(autoincrement())
+  status    String   @default("ok")
+  checkedAt DateTime @default(now())
+
+  @@map("system_health")
+}
