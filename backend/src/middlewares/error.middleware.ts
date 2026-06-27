@@ -1,18 +1,14 @@
 // ================================
 // Global Error Middleware
 // Project: Billing & Inventory Management System
-// Sprint: 1.7 — Global Error Handling
-// ================================
-// Central error processing pipeline.
-// All errors thrown anywhere in the
-// application are handled here.
-// Must be registered LAST in the pipeline.
+// Sprint: 1.8 — Logging Infrastructure
 // ================================
 
 import { Request, Response, NextFunction } from 'express';
 import { AppError }                         from '../utils/app-error';
 import { HTTP_STATUS }                      from '../constants/api';
 import { config }                           from '../config/environment';
+import { logger }                           from '../logger';
 
 // ================================
 // Error Response Interface
@@ -35,20 +31,23 @@ export const errorMiddleware = (
   next: NextFunction
 ): void => {
 
-  // ================================
-  // Default to 500 Internal Error
-  // Explicitly typed as number
-  // ================================
   let statusCode: number = HTTP_STATUS.INTERNAL_SERVER_ERROR;
   let message:    string = 'An unexpected error occurred.';
 
-  // ================================
-  // Handle Known AppErrors
-  // ================================
   if (err instanceof AppError) {
     statusCode = err.statusCode;
     message    = err.message;
   }
+
+  // ================================
+  // Log Error via Winston
+  // ================================
+  logger.error(`${req.method} ${req.originalUrl}`, {
+    statusCode,
+    message,
+    requestId: req.requestId ?? 'unknown',
+    stack:     config.server.isDevelopment ? err.stack : undefined,
+  });
 
   // ================================
   // Build Error Response
@@ -60,22 +59,8 @@ export const errorMiddleware = (
     timestamp: new Date().toISOString(),
   };
 
-  // ================================
-  // Include Stack Trace in Development
-  // ================================
   if (config.server.isDevelopment) {
     response.stack = err.stack;
-  }
-
-  // ================================
-  // Log Error to Console
-  // ================================
-  console.error(`[ERROR] ${req.method} ${req.originalUrl}`);
-  console.error(`        Status  : ${statusCode}`);
-  console.error(`        Message : ${message}`);
-
-  if (config.server.isDevelopment) {
-    console.error(`        Stack   : ${err.stack}`);
   }
 
   res.status(statusCode).json(response);
