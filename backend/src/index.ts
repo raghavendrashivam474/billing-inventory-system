@@ -7,17 +7,19 @@ dotenv.config();
 // ================================
 // Application Entry Point
 // Project: Billing & Inventory Management System
-// Sprint: 1.6 — Middleware Infrastructure
+// Sprint: 1.7 — Global Error Handling
 // ================================
 import express, { Application, Request, Response } from 'express';
-import helmet                from 'helmet';
-import { config }            from './config/environment';
+import helmet from 'helmet';
+import { config }               from './config/environment';
 import { APP_NAME, API_PREFIX } from './constants/api';
 import {
   corsMiddleware,
   loggerMiddleware,
   requestIdMiddleware,
   requestTimerMiddleware,
+  notFoundMiddleware,
+  errorMiddleware,
 } from './middlewares';
 import router from './routes';
 
@@ -25,7 +27,7 @@ const app: Application = express();
 
 // ================================
 // Middleware Pipeline
-// Order is important — do not rearrange
+// Order is critical — do not rearrange
 // ================================
 
 // 1. Security headers
@@ -37,10 +39,10 @@ app.use(corsMiddleware);
 // 3. HTTP request logger
 app.use(loggerMiddleware);
 
-// 4. Request ID — unique identifier per request
+// 4. Request ID
 app.use(requestIdMiddleware);
 
-// 5. Request timer — measure duration
+// 5. Request timer
 app.use(requestTimerMiddleware);
 
 // 6. JSON body parser
@@ -64,6 +66,18 @@ app.get('/', (req: Request, res: Response) => {
     docs:    '/docs',
   });
 });
+
+// ================================
+// 404 Handler
+// Must be AFTER all routes
+// ================================
+app.use(notFoundMiddleware);
+
+// ================================
+// Global Error Handler
+// Must be LAST in the pipeline
+// ================================
+app.use(errorMiddleware);
 
 // ================================
 // Start Server
