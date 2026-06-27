@@ -1,11 +1,14 @@
 // ================================
 // Utils Barrel File
 // Project: Billing & Inventory Management System
-// Sprint: 1.7 — Global Error Handling
+// Sprint: 1.9 — Health API
 // ================================
 
-export { AppError }      from './app-error';
-export { asyncHandler }  from './async-handler';
+export { AppError }                    from './app-error';
+export { asyncHandler }                from './async-handler';
+export { formatUptime }                from './format-uptime';
+export { formatMemory }                from './format-memory';
+export type { MemoryStats }            from './format-memory';
 
 // ================================
 // API Response Helpers

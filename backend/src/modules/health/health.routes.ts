@@ -1,15 +1,17 @@
 // ================================
 // Health Routes
 // Project: Billing & Inventory Management System
-// Sprint: 1.5 — API Foundation
+// Sprint: 1.9 — Production Health API
 // ================================
 
-import { Router }          from 'express';
+import { Router }           from 'express';
 import { healthController } from './health.controller';
 
 const router = Router();
 
 // GET /api/v1/health
-router.get('/', (req, res) => healthController.getHealth(req, res));
+// healthController.getHealth is wrapped with asyncHandler
+// so it must be passed directly as middleware
+router.get('/', healthController.getHealth);
 
 export default router;
