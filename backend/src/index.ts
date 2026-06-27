@@ -1,6 +1,5 @@
 // ================================
 // Load environment variables FIRST
-// before any other imports
 // ================================
 import dotenv from 'dotenv';
 dotenv.config();
@@ -8,10 +7,12 @@ dotenv.config();
 // ================================
 // Application Entry Point
 // Project: Billing & Inventory Management System
-// Sprint: 1.3 — Environment Configuration
+// Sprint: 1.5 — API Foundation
 // ================================
 import express, { Application, Request, Response } from 'express';
-import { config } from './config/environment';
+import { config }     from './config/environment';
+import { APP_NAME, API_PREFIX } from './constants/api';
+import router         from './routes';
 
 const app: Application = express();
 
@@ -22,18 +23,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ================================
-// Routes
+// API Routes
+// ================================
+app.use('/', router);
+
+// ================================
+// Root Route
 // ================================
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello from Backend');
-});
-
-app.get('/health', (req: Request, res: Response) => {
   res.json({
-    status: 'OK',
-    message: 'Server is running',
-    environment: config.server.nodeEnv,
-    timestamp: new Date().toISOString(),
+    message: `Welcome to ${APP_NAME}`,
+    api:     `${API_PREFIX}`,
+    docs:    '/docs',
   });
 });
 
@@ -42,9 +43,11 @@ app.get('/health', (req: Request, res: Response) => {
 // ================================
 app.listen(config.server.port, () => {
   console.log('================================');
-  console.log(`Environment : ${config.server.nodeEnv}`);
-  console.log(`Server Port : ${config.server.port}`);
-  console.log(`URL         : http://localhost:${config.server.port}`);
+  console.log(`  ${APP_NAME}`);
+  console.log('================================');
+  console.log(`  Environment : ${config.server.nodeEnv}`);
+  console.log(`  Port        : ${config.server.port}`);
+  console.log(`  API         : http://localhost:${config.server.port}${API_PREFIX}`);
   console.log('================================');
 });
 

@@ -1,21 +1,23 @@
 // ================================
 // Central Routes Registry
 // Project: Billing & Inventory Management System
-// Sprint: 1.4 — Backend Architecture
-// ================================
-// All application routes are registered here.
-// Future modules will add their routes below.
+// Sprint: 1.5 — API Foundation
 // ================================
 
-import { Router } from 'express';
+import { Router }   from 'express';
+import { API_PREFIX } from '../constants/api';
+import v1Router     from './v1';
 
 const router = Router();
 
 // ================================
-// Module Routes
-// Registered here as modules are built
+// API Version Registration
 // ================================
-// import healthRoutes from '../modules/health/health.routes';
-// router.use('/health', healthRoutes);
+router.use('/api/v1', v1Router);
+
+// ================================
+// Future versions registered here
+// ================================
+// router.use('/api/v2', v2Router);
 
 export default router;

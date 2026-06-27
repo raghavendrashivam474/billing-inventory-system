@@ -1,6 +1,9 @@
+// ================================
 // Health Module
-// Placeholder for Sprint 1.9 — Health API
-// This module will contain:
-//   - health.controller.ts
-//   - health.service.ts
-//   - health.routes.ts
+// Project: Billing & Inventory Management System
+// Sprint: 1.5 — API Foundation
+// ================================
+
+export { healthController, HealthController } from './health.controller';
+export { healthService, HealthService }       from './health.service';
+export { default as healthRoutes }            from './health.routes';
