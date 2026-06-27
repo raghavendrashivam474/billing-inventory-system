@@ -1,2 +1,10 @@
-// Middlewares barrel file
-// Export all middlewares here as they are created
+// ================================
+// Middlewares Barrel File
+// Project: Billing & Inventory Management System
+// Sprint: 1.6 — Middleware Infrastructure
+// ================================
+
+export { corsMiddleware }         from './cors.middleware';
+export { loggerMiddleware }       from './logger.middleware';
+export { requestIdMiddleware }    from './request-id.middleware';
+export { requestTimerMiddleware } from './request-timer.middleware';
