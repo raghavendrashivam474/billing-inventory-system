@@ -1,32 +1,33 @@
 ﻿# Billing & Inventory Management System
 
-> **A production-oriented full-stack Billing & Inventory Management System built to understand, design, and implement real-world retail operations using modern software engineering practices.**
+> **A production-oriented full-stack Billing & Inventory Management System designed to model real-world retail operations while following modern software engineering principles, clean architecture, and production-ready development practices.**
 
-This project is being developed independently as a learning and portfolio project with a strong emphasis on clean architecture, maintainability, documentation, and production-ready engineering workflows.
+This project is being developed independently as a learning and portfolio initiative to understand how commercial billing and inventory systems are designed, implemented, documented, and maintained throughout their complete software development lifecycle.
 
 ---
 
 # Current Status
 
-**Version:** `v0.2.1`
-
-**Current Milestone:** Sprint 1 — Backend Foundation
-
-**Project Status:** 🟢 Active Development
+| Item                    | Status                             |
+| ----------------------- | ---------------------------------- |
+| **Version**             | `v0.2.2`                           |
+| **Current Milestone**   | Sprint 1 — Backend Foundation      |
+| **Project Status**      | 🟢 Active Development              |
+| **Architecture Status** | ✅ Layered Architecture Established |
 
 ---
 
 # Project Objectives
 
-This project aims to:
+The primary goals of this project are to:
 
-* Build a scalable enterprise-grade application
-* Understand real-world retail and inventory workflows
-* Learn database design and transactional systems
-* Design production-ready REST APIs
-* Practice clean architecture and modular development
-* Follow professional software engineering workflows
-* Maintain comprehensive engineering documentation throughout development
+* Build a scalable enterprise-grade Billing & Inventory Management System.
+* Understand real-world retail workflows and business processes.
+* Design and implement production-ready REST APIs.
+* Learn relational database design and transactional workflows.
+* Apply clean architecture and modular software design.
+* Follow professional software engineering practices from planning to deployment.
+* Maintain comprehensive engineering documentation throughout the project lifecycle.
 
 ---
 
@@ -56,34 +57,33 @@ This project aims to:
 ```text
 billing-inventory-system/
 │
-├── frontend/          # React application
-├── backend/           # Express API
-├── docs/              # Documentation
-├── database/          # Database resources
-├── scripts/           # Utility scripts
-├── shared/            # Shared types and utilities
+├── frontend/              # React application
+├── backend/               # Express backend
+├── docs/                  # Engineering documentation
+├── database/              # Database resources
+├── scripts/               # Development scripts
+├── shared/                # Shared utilities and types
 │
 └── README.md
 ```
 
 ---
 
-# Current Progress
+# Development Progress
 
-## Completed
+## Sprint 0 — Project Foundation
 
-### Sprint 0 — Foundation
+Completed
 
-* ✅ Project initialization
-* ✅ Git repository setup
-* ✅ React + Vite frontend
-* ✅ Express backend
-* ✅ TypeScript configuration
+* ✅ Repository initialization
+* ✅ Git configuration
+* ✅ React + Vite setup
+* ✅ Express + TypeScript setup
 * ✅ Initial documentation
 
 ---
 
-### Sprint 1 — Backend Foundation
+## Sprint 1 — Backend Foundation
 
 Completed
 
@@ -93,59 +93,99 @@ Completed
 * ✅ Environment configuration
 * ✅ Runtime configuration validation
 * ✅ Centralized configuration module
+* ✅ Layered backend architecture
+* ✅ Modular folder organization
+* ✅ Shared utilities and type definitions
 
 Currently In Progress
 
-* 🔄 Backend architecture
+* 🔄 API Foundation
 * 🔄 Middleware
-* 🔄 API foundation
-* 🔄 Error handling
+* 🔄 Error Handling
 * 🔄 Logging
-* 🔄 Health endpoints
+* 🔄 Health APIs
+* 🔄 Frontend Integration
+
+---
+
+# Backend Architecture
+
+The backend follows a layered architecture designed for scalability and maintainability.
+
+```text
+Client
+   │
+   ▼
+Routes
+   │
+   ▼
+Controllers
+   │
+   ▼
+Services
+   │
+   ▼
+Repositories
+   │
+   ▼
+Prisma ORM
+   │
+   ▼
+PostgreSQL
+```
+
+Each layer has a single responsibility and communicates only with adjacent layers.
 
 ---
 
 # Engineering Philosophy
 
-This project follows an **architecture-first** and **documentation-first** development approach.
+This project follows an **Architecture First** and **Documentation First** development methodology.
 
 Every sprint follows the same engineering lifecycle:
 
 ```text
 Research
-    ↓
+      │
+      ▼
 Planning
-    ↓
+      │
+      ▼
 Architecture
-    ↓
+      │
+      ▼
 Implementation
-    ↓
+      │
+      ▼
 Testing
-    ↓
+      │
+      ▼
 Documentation
-    ↓
+      │
+      ▼
 Git Commit
-    ↓
+      │
+      ▼
 Release
 ```
 
-The objective is not only to build working software but also to document the complete engineering journey behind it.
+The objective is to document not only the final software but also the engineering decisions, implementation process, and architectural evolution throughout development.
 
 ---
 
 # Documentation
 
-Project documentation is organized inside the `docs/` directory.
+All engineering documentation is maintained inside the `docs/` directory.
 
 Documentation includes:
 
 * Project Overview
-* Setup Guide
+* Setup Instructions
 * Folder Structure
+* Architecture Documentation
 * Sprint Briefs
 * Progress Reports
 * Completion Reports
-* Architecture Notes
 * Engineering Decisions
 * Lessons Learned
 
@@ -160,41 +200,51 @@ Documentation includes:
 
 ---
 
-## Phase 2 — Core Business Modules
+## Phase 2 — Master Data
 
 * ⏳ Authentication & Authorization
 * ⏳ Product Management
+* ⏳ Category Management
+* ⏳ Brand Management
+* ⏳ Unit Management
 * ⏳ Supplier Management
 * ⏳ Customer Management
-* ⏳ Purchase Management
-* ⏳ Inventory Management
 
 ---
 
 ## Phase 3 — Business Operations
 
+* ⏳ Purchase Management
+* ⏳ Inventory Management
 * ⏳ Sales & Billing
 * ⏳ Invoice Generation
-* ⏳ Payments
-* ⏳ Dashboard
-* ⏳ Reports
+* ⏳ Payment Processing
 
 ---
 
-## Phase 4 — Production Readiness
+## Phase 4 — Analytics
 
-* ⏳ Testing
+* ⏳ Dashboard
+* ⏳ Reports
+* ⏳ Business Insights
+
+---
+
+## Phase 5 — Production Readiness
+
+* ⏳ Unit Testing
+* ⏳ Integration Testing
 * ⏳ Performance Optimization
-* ⏳ Deployment
+* ⏳ Docker
 * ⏳ CI/CD
-* ⏳ Documentation
+* ⏳ Deployment
 * ⏳ Monitoring
 
 ---
 
 # Repository Workflow
 
-Each sprint produces:
+Every sprint produces engineering artifacts including:
 
 * Sprint Brief
 * Progress Report
@@ -203,29 +253,7 @@ Each sprint produces:
 * Git History
 * Architecture Decisions
 
-This repository is intended to document both the final product and the engineering process used to build it.
-
----
-
-# Quick Start
-
-Clone the repository:
-
-```bash
-git clone <repository-url>
-```
-
-Navigate to the project:
-
-```bash
-cd billing-inventory-system
-```
-
-Follow the setup instructions:
-
-```text
-docs/setup-instructions.md
-```
+The repository documents both the software and the engineering process used to build it.
 
 ---
 
@@ -237,29 +265,31 @@ docs/setup-instructions.md
 | Sprint 1.1 — PostgreSQL Configuration  | ✅ Complete     |
 | Sprint 1.2 — Prisma ORM Setup          | ✅ Complete     |
 | Sprint 1.3 — Environment Configuration | ✅ Complete     |
-| Sprint 1.4 — Backend Architecture      | 🔄 In Progress |
+| Sprint 1.4 — Backend Architecture      | ✅ Complete     |
+| Sprint 1.5 — API Foundation            | 🔄 In Progress |
 
 ---
 
 # Repository Goals
 
-This repository is designed to demonstrate:
+This repository demonstrates:
 
-* Enterprise application architecture
-* Backend engineering
-* Database design
-* API development
-* Software engineering documentation
+* Enterprise backend architecture
+* REST API design
+* Relational database modeling
+* Clean Architecture principles
+* Modular software design
 * Professional Git workflow
+* Engineering documentation
 * Production-ready development practices
 
 ---
 
 # Contributing
 
-This project is currently maintained by a single developer as part of a learning and portfolio initiative.
+This project is currently maintained by a single developer as a learning and portfolio initiative.
 
-Future contributions may be welcomed after the first stable release.
+External contributions may be considered after the first stable release (`v1.0.0`).
 
 ---
 
