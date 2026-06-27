@@ -1,30 +1,30 @@
 ﻿# Billing & Inventory Management System
 
-> **A production-oriented full-stack Billing & Inventory Management System designed to model real-world retail operations while following modern software engineering principles, clean architecture, and production-ready development practices.**
+> **A production-oriented full-stack Billing & Inventory Management System designed to model real-world retail operations using modern software engineering practices, clean architecture, and production-ready development workflows.**
 
-This project is being developed independently as a learning and portfolio initiative to understand how commercial billing and inventory systems are designed, implemented, documented, and maintained throughout their complete software development lifecycle.
+This project is being developed independently as a learning and portfolio project to understand how commercial billing and inventory systems are architected, implemented, tested, documented, and maintained throughout the complete software development lifecycle.
 
 ---
 
 # Current Status
 
-| Item                    | Status                             |
-| ----------------------- | ---------------------------------- |
-| **Version**             | `v0.2.2`                           |
-| **Current Milestone**   | Sprint 1 — Backend Foundation      |
-| **Project Status**      | 🟢 Active Development              |
-| **Architecture Status** | ✅ Layered Architecture Established |
+| Item                  | Status                                |
+| --------------------- | ------------------------------------- |
+| **Version**           | `v0.3.0`                              |
+| **Current Milestone** | Phase 2 — Business Module Development |
+| **Project Status**    | 🟢 Active Development                 |
+| **Foundation Status** | ✅ Complete                            |
 
 ---
 
 # Project Objectives
 
-The primary goals of this project are to:
+This project aims to:
 
 * Build a scalable enterprise-grade Billing & Inventory Management System.
-* Understand real-world retail workflows and business processes.
-* Design and implement production-ready REST APIs.
-* Learn relational database design and transactional workflows.
+* Understand real-world retail and inventory workflows.
+* Design production-ready REST APIs.
+* Learn relational database modeling and transactional systems.
 * Apply clean architecture and modular software design.
 * Follow professional software engineering practices from planning to deployment.
 * Maintain comprehensive engineering documentation throughout the project lifecycle.
@@ -38,6 +38,7 @@ The primary goals of this project are to:
 * React
 * Vite
 * TypeScript
+* Axios
 
 ## Backend
 
@@ -49,6 +50,14 @@ The primary goals of this project are to:
 
 * PostgreSQL
 * Prisma ORM
+
+## Infrastructure
+
+* Winston
+* Helmet
+* Morgan
+* CORS
+* UUID
 
 ---
 
@@ -71,46 +80,38 @@ billing-inventory-system/
 
 # Development Progress
 
-## Sprint 0 — Project Foundation
+## ✅ Phase 1 — Foundation
+
+### Sprint 0 — Project Setup
+
+* Repository initialization
+* React + Vite setup
+* Express + TypeScript setup
+* Initial documentation
+
+### Sprint 1 — Backend Foundation
 
 Completed
 
-* ✅ Repository initialization
-* ✅ Git configuration
-* ✅ React + Vite setup
-* ✅ Express + TypeScript setup
-* ✅ Initial documentation
+* PostgreSQL configuration
+* Prisma ORM integration
+* Initial database migration
+* Environment configuration
+* Runtime configuration validation
+* Centralized configuration module
+* Layered backend architecture
+* Modular project organization
+* Versioned REST API foundation
+* Middleware pipeline
+* Global error handling
+* Winston logging
+* Production Health API
+* Frontend integration
+* End-to-end frontend ↔ backend communication
 
 ---
 
-## Sprint 1 — Backend Foundation
-
-Completed
-
-* ✅ PostgreSQL configuration
-* ✅ Prisma ORM integration
-* ✅ Initial database migration
-* ✅ Environment configuration
-* ✅ Runtime configuration validation
-* ✅ Centralized configuration module
-* ✅ Layered backend architecture
-* ✅ Modular folder organization
-* ✅ Shared utilities and type definitions
-
-Currently In Progress
-
-* 🔄 API Foundation
-* 🔄 Middleware
-* 🔄 Error Handling
-* 🔄 Logging
-* 🔄 Health APIs
-* 🔄 Frontend Integration
-
----
-
-# Backend Architecture
-
-The backend follows a layered architecture designed for scalability and maintainability.
+# Current Backend Architecture
 
 ```text
 Client
@@ -134,15 +135,15 @@ Prisma ORM
 PostgreSQL
 ```
 
-Each layer has a single responsibility and communicates only with adjacent layers.
+Each layer has a clearly defined responsibility and communicates only with adjacent layers.
 
 ---
 
 # Engineering Philosophy
 
-This project follows an **Architecture First** and **Documentation First** development methodology.
+This project follows an **Architecture First** and **Documentation First** engineering methodology.
 
-Every sprint follows the same engineering lifecycle:
+Every feature follows the same lifecycle:
 
 ```text
 Research
@@ -169,23 +170,27 @@ Git Commit
 Release
 ```
 
-The objective is to document not only the final software but also the engineering decisions, implementation process, and architectural evolution throughout development.
+The goal is not only to build production-quality software but also to document the engineering decisions and development journey behind it.
 
 ---
 
 # Documentation
 
-All engineering documentation is maintained inside the `docs/` directory.
+Project documentation is maintained inside the `docs/` directory.
 
 Documentation includes:
 
 * Project Overview
 * Setup Instructions
 * Folder Structure
-* Architecture Documentation
+* Backend Architecture
+* API Documentation
+* Frontend Documentation
+* Middleware Documentation
+* Logging Documentation
+* Health API Documentation
 * Sprint Briefs
-* Progress Reports
-* Completion Reports
+* Sprint Completion Reports
 * Engineering Decisions
 * Lessons Learned
 
@@ -193,80 +198,77 @@ Documentation includes:
 
 # Development Roadmap
 
-## Phase 1 — Foundation
+## ✅ Phase 1 — Foundation
 
-* ✅ Sprint 0 — Project Setup
-* 🔄 Sprint 1 — Backend Foundation
-
----
-
-## Phase 2 — Master Data
-
-* ⏳ Authentication & Authorization
-* ⏳ Product Management
-* ⏳ Category Management
-* ⏳ Brand Management
-* ⏳ Unit Management
-* ⏳ Supplier Management
-* ⏳ Customer Management
+* Sprint 0 — Project Setup
+* Sprint 1 — Backend Foundation
 
 ---
 
-## Phase 3 — Business Operations
+## 🚧 Phase 2 — Business Modules
 
-* ⏳ Purchase Management
-* ⏳ Inventory Management
-* ⏳ Sales & Billing
-* ⏳ Invoice Generation
-* ⏳ Payment Processing
-
----
-
-## Phase 4 — Analytics
-
-* ⏳ Dashboard
-* ⏳ Reports
-* ⏳ Business Insights
+* Authentication & Authorization
+* Product Management
+* Category Management
+* Brand Management
+* Unit Management
+* Supplier Management
+* Customer Management
 
 ---
 
-## Phase 5 — Production Readiness
+## ⏳ Phase 3 — Business Operations
 
-* ⏳ Unit Testing
-* ⏳ Integration Testing
-* ⏳ Performance Optimization
-* ⏳ Docker
-* ⏳ CI/CD
-* ⏳ Deployment
-* ⏳ Monitoring
+* Purchase Management
+* Inventory Management
+* Sales & Billing
+* Invoice Generation
+* Payment Processing
+
+---
+
+## ⏳ Phase 4 — Analytics
+
+* Dashboard
+* Reports
+* Business Insights
+
+---
+
+## ⏳ Phase 5 — Production Readiness
+
+* Unit Testing
+* Integration Testing
+* Performance Optimization
+* Docker
+* CI/CD
+* Deployment
+* Monitoring
 
 ---
 
 # Repository Workflow
 
-Every sprint produces engineering artifacts including:
+Each sprint produces engineering artifacts including:
 
 * Sprint Brief
-* Progress Report
-* Completion Report
+* Sprint Completion Report
+* Architecture Documentation
+* Technical Decisions
 * Lessons Learned
 * Git History
-* Architecture Decisions
 
-The repository documents both the software and the engineering process used to build it.
+This repository documents both the software and the engineering process used to build it.
 
 ---
 
-# Current Sprint Status
+# Current Progress
 
-| Sprint                                 | Status         |
-| -------------------------------------- | -------------- |
-| Sprint 0 — Project Setup               | ✅ Complete     |
-| Sprint 1.1 — PostgreSQL Configuration  | ✅ Complete     |
-| Sprint 1.2 — Prisma ORM Setup          | ✅ Complete     |
-| Sprint 1.3 — Environment Configuration | ✅ Complete     |
-| Sprint 1.4 — Backend Architecture      | ✅ Complete     |
-| Sprint 1.5 — API Foundation            | 🔄 In Progress |
+| Milestone                     | Status      |
+| ----------------------------- | ----------- |
+| Sprint 0 — Project Setup      | ✅ Complete  |
+| Sprint 1 — Backend Foundation | ✅ Complete  |
+| Sprint 2 — Business Modules   | 🚧 Starting |
 
 ---
 
@@ -274,14 +276,14 @@ The repository documents both the software and the engineering process used to b
 
 This repository demonstrates:
 
-* Enterprise backend architecture
-* REST API design
-* Relational database modeling
+* Enterprise application architecture
 * Clean Architecture principles
-* Modular software design
+* REST API development
+* Relational database modeling
+* Modular backend design
+* Production-ready engineering practices
 * Professional Git workflow
-* Engineering documentation
-* Production-ready development practices
+* Comprehensive technical documentation
 
 ---
 
