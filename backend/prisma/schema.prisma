@@ -1,7 +1,7 @@
 // ================================
 // Prisma Schema
 // Project: Billing & Inventory Management System
-// Sprint: 1.2 — Prisma ORM Setup
+// Sprint: 2.1 — Master Data Foundation
 // ================================
 
 generator client {
@@ -14,15 +14,167 @@ datasource db {
 }
 
 // ================================
-// System Table
-// Used to verify database connectivity.
-// Business models will be added from Sprint 2.
+// System Table — Sprint 1.2
 // ================================
-
 model SystemHealth {
   id        Int      @id @default(autoincrement())
   status    String   @default("ok")
   checkedAt DateTime @default(now())
 
   @@map("system_health")
+}
+
+// ================================
+// Category
+// Groups products into logical categories
+// ================================
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  products    Product[]
+
+  @@map("categories")
+}
+
+// ================================
+// Brand
+// Manufacturer or brand of a product
+// ================================
+model Brand {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  products    Product[]
+
+  @@map("brands")
+}
+
+// ================================
+// Unit
+// Unit of measurement for products
+// Examples: kg, litre, piece, box
+// ================================
+model Unit {
+  id           Int       @id @default(autoincrement())
+  name         String    @unique
+  abbreviation String    @unique
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  products     Product[]
+
+  @@map("units")
+}
+
+// ================================
+// TaxRate
+// Tax rates applied to products
+// ================================
+model TaxRate {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  rate        Decimal   @db.Decimal(5, 2)
+  description String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  products    Product[]
+
+  @@map("tax_rates")
+}
+
+// ================================
+// Product
+// Core product entity
+// ================================
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  sku         String    @unique
+  barcode     String?   @unique
+  price       Decimal   @db.Decimal(10, 2)
+  costPrice   Decimal   @db.Decimal(10, 2)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  categoryId  Int
+  category    Category  @relation(fields: [categoryId], references: [id])
+
+  brandId     Int?
+  brand       Brand?    @relation(fields: [brandId], references: [id])
+
+  unitId      Int
+  unit        Unit      @relation(fields: [unitId], references: [id])
+
+  taxRateId   Int?
+  taxRate     TaxRate?  @relation(fields: [taxRateId], references: [id])
+
+  @@map("products")
+}
+
+// ================================
+// Supplier
+// Vendors and suppliers
+// ================================
+model Supplier {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String?   @unique
+  phone       String?
+  address     String?
+  city        String?
+  country     String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("suppliers")
+}
+
+// ================================
+// Customer
+// End customers for billing and sales
+// ================================
+model Customer {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String?   @unique
+  phone       String?
+  address     String?
+  city        String?
+  country     String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("customers")
+}
+
+// ================================
+// Warehouse
+// Storage locations for inventory
+// ================================
+model Warehouse {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  location    String?
+  address     String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("warehouses")
 }
