@@ -1,9 +1,19 @@
-// Brand Routes — Sprint 2.1 Placeholder
-import { Router }                    from 'express';
-import { Controller } from './brand.controller';
+// Brand Routes — Sprint 2.2
+import { Router } from 'express';
+import { brandController }      from './brand.controller';
+import {
+  validateCreateBrand,
+  validateUpdateBrand,
+  validateQueryBrand,
+} from './brand.validator';
 
 const router = Router();
 
-router.get('/', (req, res) => Controller.placeholder(req, res));
+router.get('/',              validateQueryBrand,  brandController.getAll);
+router.get('/:id',                               brandController.getById);
+router.post('/',             validateCreateBrand, brandController.create);
+router.patch('/:id',         validateUpdateBrand, brandController.update);
+router.delete('/:id',                            brandController.delete);
+router.patch('/:id/restore',                     brandController.restore);
 
 export default router;
