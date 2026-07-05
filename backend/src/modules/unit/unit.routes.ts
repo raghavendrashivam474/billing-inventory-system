@@ -1,9 +1,19 @@
-// Unit Routes — Sprint 2.1 Placeholder
-import { Router }                    from 'express';
-import { Controller } from './unit.controller';
+// Unit Routes — Sprint 2.3
+import { Router } from 'express';
+import { unitController }      from './unit.controller';
+import {
+  validateCreateUnit,
+  validateUpdateUnit,
+  validateQueryUnit,
+} from './unit.validator';
 
 const router = Router();
 
-router.get('/', (req, res) => Controller.placeholder(req, res));
+router.get('/',              validateQueryUnit,  unitController.getAll);
+router.get('/:id',                              unitController.getById);
+router.post('/',             validateCreateUnit, unitController.create);
+router.patch('/:id',         validateUpdateUnit, unitController.update);
+router.delete('/:id',                           unitController.delete);
+router.patch('/:id/restore',                    unitController.restore);
 
 export default router;

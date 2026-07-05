@@ -1,5 +1,5 @@
-// Unit Module — Sprint 2.1
-export { Controller } from './unit.controller';
-export { Service }    from './unit.service';
-export { Repository } from './unit.repository';
-export { default as Routes } from './unit.routes';
+// Unit Module — Sprint 2.3
+export { unitController } from './unit.controller';
+export { unitService }    from './unit.service';
+export { unitRepository } from './unit.repository';
+export { default as unitRoutes } from './unit.routes';
