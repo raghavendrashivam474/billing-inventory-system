@@ -10,12 +10,13 @@ This project is being developed as a learning and portfolio initiative to unders
 
 | Item | Status |
 |------|--------|
-| **Version** | `v0.4.0` |
+| **Version** | `v0.6.0` |
 | **Current Phase** | Phase 2 — Business Module Development |
-| **Current Sprint** | Sprint 2.4 — Product Management |
+| **Current Sprint** | Sprint 2.5 — Supplier & Customer Management |
 | **Development Status** | 🟢 Active |
 | **Foundation** | ✅ Complete |
 | **Master Data** | ✅ Complete |
+| **Core Product Domain** | ✅ Complete |
 | **Business Modules** | 🚧 In Progress |
 
 ---
@@ -44,7 +45,7 @@ This project is being developed as a learning and portfolio initiative to unders
 - ✅ Brand Management
 - ✅ Unit Management
 - ✅ Tax Rate Management
-- 🚧 Product Management
+- ✅ Product Management
 - ⏳ Supplier Management
 - ⏳ Customer Management
 - ⏳ Warehouse Management
@@ -135,7 +136,7 @@ Master Data
 ├── Brand           ✅
 ├── Unit            ✅
 ├── Tax Rate        ✅
-├── Product         🚧
+├── Product         ✅
 ├── Supplier        ⏳
 ├── Customer        ⏳
 └── Warehouse       ⏳
@@ -144,12 +145,13 @@ Business Operations
 │
 ├── Purchase        ⏳
 ├── Inventory       ⏳
+├── Stock Movement  ⏳
 ├── Sales           ⏳
 ├── Billing         ⏳
 └── Payments        ⏳
 ```
 
-The completed master data modules establish the foundation for transactional workflows that will be introduced in later phases.
+The Product module is now the central business entity and serves as the foundation for all future transactional workflows.
 
 ---
 
@@ -233,7 +235,7 @@ The `docs/` directory contains comprehensive engineering documentation, includin
 - Logging Documentation
 - Health API Documentation
 
-Documentation is treated as a first-class deliverable and evolves alongside the codebase.
+Documentation evolves alongside the implementation and is treated as a first-class deliverable.
 
 ---
 
@@ -252,7 +254,7 @@ Documentation is treated as a first-class deliverable and evolves alongside the 
 - ✅ Brand Management
 - ✅ Unit Management
 - ✅ Tax Rate Management
-- 🚧 Product Management
+- ✅ Product Management
 - ⏳ Supplier Management
 - ⏳ Customer Management
 - ⏳ Warehouse Management
@@ -263,7 +265,7 @@ Documentation is treated as a first-class deliverable and evolves alongside the 
 
 - Purchase Management
 - Inventory Management
-- Stock Transactions
+- Stock Movement
 - Sales Management
 - Billing
 - Invoice Generation
@@ -357,7 +359,7 @@ This repository demonstrates:
 - Production-Oriented Backend Development
 - Relational Database Design
 - REST API Development
-- Domain-Driven Module Organization
+- Domain-Oriented Module Organization
 - Engineering Documentation Practices
 - Professional Git Workflow
 - Incremental Software Delivery
