@@ -99,32 +99,31 @@ model TaxRate {
 // Core product entity
 // ================================
 model Product {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String?
-  sku         String    @unique
-  barcode     String?   @unique
-  price       Decimal   @db.Decimal(10, 2)
-  costPrice   Decimal   @db.Decimal(10, 2)
-  isActive    Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id           Int       @id @default(autoincrement())
+  name         String
+  description  String?
+  sku          String    @unique
+  barcode      String?   @unique
+  costPrice    Decimal   @db.Decimal(10, 2)
+  sellingPrice Decimal   @db.Decimal(10, 2)
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
-  categoryId  Int
-  category    Category  @relation(fields: [categoryId], references: [id])
+  categoryId   Int
+  category     Category  @relation(fields: [categoryId], references: [id])
 
-  brandId     Int?
-  brand       Brand?    @relation(fields: [brandId], references: [id])
+  brandId      Int?
+  brand        Brand?    @relation(fields: [brandId], references: [id])
 
-  unitId      Int
-  unit        Unit      @relation(fields: [unitId], references: [id])
+  unitId       Int
+  unit         Unit      @relation(fields: [unitId], references: [id])
 
-  taxRateId   Int?
-  taxRate     TaxRate?  @relation(fields: [taxRateId], references: [id])
+  taxRateId    Int?
+  taxRate      TaxRate?  @relation(fields: [taxRateId], references: [id])
 
   @@map("products")
 }
-
 // ================================
 // Supplier
 // Vendors and suppliers

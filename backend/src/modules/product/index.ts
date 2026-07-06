@@ -1,5 +1,5 @@
-// Product Module — Sprint 2.1
-export { Controller } from './product.controller';
-export { Service }    from './product.service';
-export { Repository } from './product.repository';
-export { default as Routes } from './product.routes';
+// Product Module — Sprint 2.4
+export { productController } from './product.controller';
+export { productService }    from './product.service';
+export { productRepository } from './product.repository';
+export { default as productRoutes } from './product.routes';
