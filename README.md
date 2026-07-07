@@ -10,13 +10,14 @@ This project is being developed as a learning and portfolio initiative to unders
 
 | Item | Status |
 |------|--------|
-| **Version** | `v0.6.0` |
+| **Version** | `v0.7.0` |
 | **Current Phase** | Phase 2 — Business Module Development |
-| **Current Sprint** | Sprint 2.5 — Supplier & Customer Management |
+| **Current Sprint** | Sprint 2.6 — Warehouse Management |
 | **Development Status** | 🟢 Active |
 | **Foundation** | ✅ Complete |
-| **Master Data** | ✅ Complete |
+| **Master Data** | 🚧 Near Completion |
 | **Core Product Domain** | ✅ Complete |
+| **Business Partner Layer** | ✅ Complete |
 | **Business Modules** | 🚧 In Progress |
 
 ---
@@ -46,8 +47,8 @@ This project is being developed as a learning and portfolio initiative to unders
 - ✅ Unit Management
 - ✅ Tax Rate Management
 - ✅ Product Management
-- ⏳ Supplier Management
-- ⏳ Customer Management
+- ✅ Supplier Management
+- ✅ Customer Management
 - ⏳ Warehouse Management
 
 ---
@@ -137,8 +138,8 @@ Master Data
 ├── Unit            ✅
 ├── Tax Rate        ✅
 ├── Product         ✅
-├── Supplier        ⏳
-├── Customer        ⏳
+├── Supplier        ✅
+├── Customer        ✅
 └── Warehouse       ⏳
 
 Business Operations
@@ -255,8 +256,8 @@ Documentation evolves alongside the implementation and is treated as a first-cla
 - ✅ Unit Management
 - ✅ Tax Rate Management
 - ✅ Product Management
-- ⏳ Supplier Management
-- ⏳ Customer Management
+- ✅ Supplier Management
+- ✅ Customer Management
 - ⏳ Warehouse Management
 
 ---
@@ -336,13 +337,12 @@ This repository emphasizes:
 
 ---
 
-# Current Progress
-
 | Phase | Status |
 |------|--------|
 | Project Foundation | ✅ Complete |
 | Backend Foundation | ✅ Complete |
-| Master Data | ✅ Complete |
+| Master Data | 🚧 Near Completion |
+| Business Partner Layer | ✅ Complete |
 | Business Modules | 🚧 In Progress |
 | Business Operations | ⏳ Planned |
 | Analytics | ⏳ Planned |
