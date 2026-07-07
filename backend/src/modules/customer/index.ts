@@ -1,5 +1,5 @@
-// Customer Module — Sprint 2.1
-export { Controller } from './customer.controller';
-export { Service }    from './customer.service';
-export { Repository } from './customer.repository';
-export { default as Routes } from './customer.routes';
+// Customer Module — Sprint 2.5
+export { customerController } from './customer.controller';
+export { customerService }    from './customer.service';
+export { customerRepository } from './customer.repository';
+export { default as customerRoutes } from './customer.routes';
