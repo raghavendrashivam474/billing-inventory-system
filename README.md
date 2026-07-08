@@ -8,17 +8,17 @@ This project is being developed as a learning and portfolio initiative to unders
 
 # Project Status
 
-| Item | Status |
-|------|--------|
-| **Version** | `v0.7.0` |
-| **Current Phase** | Phase 2 — Business Module Development |
-| **Current Sprint** | Sprint 2.6 — Warehouse Management |
-| **Development Status** | 🟢 Active |
-| **Foundation** | ✅ Complete |
-| **Master Data** | 🚧 Near Completion |
-| **Core Product Domain** | ✅ Complete |
-| **Business Partner Layer** | ✅ Complete |
-| **Business Modules** | 🚧 In Progress |
+| Item                       | Status                               |
+| -------------------------- | ------------------------------------ |
+| **Version**                | `v0.8.0`                             |
+| **Current Phase**          | **Phase 3 — Business Operations**    |
+| **Current Sprint**         | **Sprint 3.1 — Purchase Management** |
+| **Development Status**     | 🟢 Active                            |
+| **Foundation**             | ✅ Complete                           |
+| **Master Data**            | ✅ Complete                           |
+| **Business Partner Layer** | ✅ Complete                           |
+| **Business Modules**       | ✅ Complete                           |
+| **Business Operations**    | 🚧 In Progress                       |
 
 ---
 
@@ -26,45 +26,57 @@ This project is being developed as a learning and portfolio initiative to unders
 
 ## Foundation
 
-- ✅ Modular Layered Architecture
-- ✅ Versioned REST API
-- ✅ PostgreSQL Integration
-- ✅ Prisma ORM
-- ✅ Environment Configuration
-- ✅ Middleware Pipeline
-- ✅ Global Error Handling
-- ✅ Winston Logging
-- ✅ Production Health API
-- ✅ Frontend ↔ Backend Integration
-- ✅ Comprehensive Engineering Documentation
+* ✅ Modular Layered Architecture
+* ✅ Versioned REST API
+* ✅ PostgreSQL Integration
+* ✅ Prisma ORM
+* ✅ Environment Configuration
+* ✅ Middleware Pipeline
+* ✅ Global Error Handling
+* ✅ Winston Logging
+* ✅ Production Health API
+* ✅ Frontend ↔ Backend Integration
+* ✅ Comprehensive Engineering Documentation
 
 ---
 
 ## Master Data
 
-- ✅ Category Management
-- ✅ Brand Management
-- ✅ Unit Management
-- ✅ Tax Rate Management
-- ✅ Product Management
-- ✅ Supplier Management
-- ✅ Customer Management
-- ⏳ Warehouse Management
+* ✅ Category Management
+* ✅ Brand Management
+* ✅ Unit Management
+* ✅ Tax Rate Management
+* ✅ Product Management
+* ✅ Supplier Management
+* ✅ Customer Management
+* ✅ Warehouse Management
+
+---
+
+## Business Operations
+
+* 🚧 Purchase Management
+* ⏳ Inventory Management
+* ⏳ Stock Movement
+* ⏳ Sales Management
+* ⏳ Billing
+* ⏳ Invoice Generation
+* ⏳ Payment Processing
 
 ---
 
 ## Engineering Documentation
 
-- ✅ Sprint Briefs
-- ✅ Sprint Completion Reports
-- ✅ Architecture Decision Records (ADR)
-- ✅ Project Structure Guide
-- ✅ Coding Standards
-- ✅ Design Principles
-- ✅ Development Workflow
-- ✅ Roadmap
-- ✅ Glossary
-- ✅ Business Documentation
+* ✅ Sprint Briefs
+* ✅ Sprint Completion Reports
+* ✅ Architecture Decision Records (ADR)
+* ✅ Project Structure Guide
+* ✅ Coding Standards
+* ✅ Design Principles
+* ✅ Development Workflow
+* ✅ Roadmap
+* ✅ Glossary
+* ✅ Business Documentation
 
 ---
 
@@ -72,29 +84,29 @@ This project is being developed as a learning and portfolio initiative to unders
 
 ## Frontend
 
-- React
-- Vite
-- TypeScript
-- Axios
+* React
+* Vite
+* TypeScript
+* Axios
 
 ## Backend
 
-- Node.js
-- Express
-- TypeScript
+* Node.js
+* Express
+* TypeScript
 
 ## Database
 
-- PostgreSQL
-- Prisma ORM
+* PostgreSQL
+* Prisma ORM
 
 ## Infrastructure
 
-- Winston
-- Helmet
-- Morgan
-- CORS
-- UUID
+* Winston
+* Helmet
+* Morgan
+* CORS
+* UUID
 
 ---
 
@@ -140,11 +152,11 @@ Master Data
 ├── Product         ✅
 ├── Supplier        ✅
 ├── Customer        ✅
-└── Warehouse       ⏳
+└── Warehouse       ✅
 
 Business Operations
 │
-├── Purchase        ⏳
+├── Purchase        🚧
 ├── Inventory       ⏳
 ├── Stock Movement  ⏳
 ├── Sales           ⏳
@@ -152,7 +164,7 @@ Business Operations
 └── Payments        ⏳
 ```
 
-The Product module is now the central business entity and serves as the foundation for all future transactional workflows.
+The application now has a complete master data foundation. Phase 3 introduces transactional workflows that coordinate multiple business entities into real-world business processes.
 
 ---
 
@@ -163,12 +175,12 @@ billing-inventory-system/
 │
 ├── backend/
 ├── frontend/
-├── docs/
-├── database/
-├── scripts/
-├── shared/
+├──docs/
+├──database/
+├──scripts/
+├──shared/
 │
-└── README.md
+└──README.md
 ```
 
 A detailed repository breakdown is available in:
@@ -210,7 +222,7 @@ Git Commit
 Release
 ```
 
-The objective is not only to build production-quality software, but also to document the engineering decisions, trade-offs, and architectural evolution throughout the project.
+The objective is not only to build production-quality software, but also to document the engineering decisions, architectural evolution, and implementation journey throughout the project.
 
 ---
 
@@ -218,23 +230,23 @@ The objective is not only to build production-quality software, but also to docu
 
 The `docs/` directory contains comprehensive engineering documentation, including:
 
-- Project Documentation
-- Repository Guide
-- Project Structure
-- Architecture Documentation
-- API Documentation
-- Business Documentation
-- Architecture Decision Records (ADR)
-- Sprint Briefs
-- Sprint Completion Reports
-- Coding Standards
-- Design Principles
-- Development Workflow
-- Roadmap
-- Glossary
-- Middleware Documentation
-- Logging Documentation
-- Health API Documentation
+* Project Documentation
+* Repository Guide
+* Project Structure
+* Architecture Documentation
+* API Documentation
+* Business Documentation
+* Architecture Decision Records (ADR)
+* Sprint Briefs
+* Sprint Completion Reports
+* Coding Standards
+* Design Principles
+* Development Workflow
+* Roadmap
+* Glossary
+* Middleware Documentation
+* Logging Documentation
+* Health API Documentation
 
 Documentation evolves alongside the implementation and is treated as a first-class deliverable.
 
@@ -244,55 +256,55 @@ Documentation evolves alongside the implementation and is treated as a first-cla
 
 ## ✅ Phase 1 — Foundation
 
-- Project Setup
-- Backend Foundation
+* Project Setup
+* Backend Foundation
 
 ---
 
-## 🚧 Phase 2 — Business Modules
+## ✅ Phase 2 — Business Modules
 
-- ✅ Category Management
-- ✅ Brand Management
-- ✅ Unit Management
-- ✅ Tax Rate Management
-- ✅ Product Management
-- ✅ Supplier Management
-- ✅ Customer Management
-- ⏳ Warehouse Management
+* Category Management
+* Brand Management
+* Unit Management
+* Tax Rate Management
+* Product Management
+* Supplier Management
+* Customer Management
+* Warehouse Management
 
 ---
 
-## ⏳ Phase 3 — Business Operations
+## 🚧 Phase 3 — Business Operations
 
-- Purchase Management
-- Inventory Management
-- Stock Movement
-- Sales Management
-- Billing
-- Invoice Generation
-- Payment Processing
+* 🚧 Purchase Management
+* ⏳ Inventory Management
+* ⏳ Stock Movement
+* ⏳ Sales Management
+* ⏳ Billing
+* ⏳ Invoice Generation
+* ⏳ Payment Processing
 
 ---
 
 ## ⏳ Phase 4 — Analytics
 
-- Dashboard
-- Reports
-- Business Insights
-- Inventory Analytics
+* Dashboard
+* Reports
+* Business Insights
+* Inventory Analytics
 
 ---
 
 ## ⏳ Phase 5 — Production Readiness
 
-- Unit Testing
-- Integration Testing
-- Docker
-- CI/CD
-- Performance Optimization
-- Deployment
-- Monitoring
-- Backup & Recovery
+* Unit Testing
+* Integration Testing
+* Docker
+* CI/CD
+* Performance Optimization
+* Deployment
+* Monitoring
+* Backup & Recovery
 
 ---
 
@@ -322,31 +334,32 @@ docs/setup-instructions.md
 
 This repository emphasizes:
 
-- Clean Architecture
-- Layered Design
-- Domain-Oriented Development
-- Modular Software Design
-- REST API Design
-- Repository Pattern
-- Service Layer Pattern
-- Professional Git Workflow
-- Conventional Commits
-- Architecture Decision Records (ADR)
-- Documentation-First Development
-- Incremental Sprint-Based Development
+* Clean Architecture
+* Layered Design
+* Domain-Oriented Development
+* Modular Software Design
+* REST API Design
+* Repository Pattern
+* Service Layer Pattern
+* Professional Git Workflow
+* Conventional Commits
+* Architecture Decision Records (ADR)
+* Documentation-First Development
+* Incremental Sprint-Based Development
 
 ---
 
-| Phase | Status |
-|------|--------|
-| Project Foundation | ✅ Complete |
-| Backend Foundation | ✅ Complete |
-| Master Data | 🚧 Near Completion |
-| Business Partner Layer | ✅ Complete |
-| Business Modules | 🚧 In Progress |
-| Business Operations | ⏳ Planned |
-| Analytics | ⏳ Planned |
-| Production Readiness | ⏳ Planned |
+# Current Progress
+
+| Phase                | Status         |
+| -------------------- | -------------- |
+| Project Foundation   | ✅ Complete     |
+| Backend Foundation   | ✅ Complete     |
+| Master Data          | ✅ Complete     |
+| Business Modules     | ✅ Complete     |
+| Business Operations  | 🚧 In Progress |
+| Analytics            | ⏳ Planned      |
+| Production Readiness | ⏳ Planned      |
 
 ---
 
@@ -354,15 +367,15 @@ This repository emphasizes:
 
 This repository demonstrates:
 
-- Enterprise Application Architecture
-- Clean Architecture Principles
-- Production-Oriented Backend Development
-- Relational Database Design
-- REST API Development
-- Domain-Oriented Module Organization
-- Engineering Documentation Practices
-- Professional Git Workflow
-- Incremental Software Delivery
+* Enterprise Application Architecture
+* Clean Architecture Principles
+* Production-Oriented Backend Development
+* Relational Database Design
+* REST API Development
+* Domain-Oriented Module Organization
+* Engineering Documentation Practices
+* Professional Git Workflow
+* Incremental Software Delivery
 
 ---
 
@@ -376,4 +389,6 @@ External contributions may be considered after the first stable release (`v1.0.0
 
 # License
 
-This project is developed for educational, experimentation, and portfolio purposes.
+This project is licensed under the **MIT License**.
+
+See the [`LICENSE`](LICENSE) file for details.
