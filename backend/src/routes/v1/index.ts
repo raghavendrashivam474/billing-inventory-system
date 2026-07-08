@@ -1,4 +1,4 @@
-// API v1 Router — Sprint 2.5
+// API v1 Router — Sprint 2.6
 import { Router, Request, Response } from 'express';
 import { healthController }           from '../../modules/health/health.controller';
 import { healthRoutes }               from '../../modules/health';
@@ -13,8 +13,6 @@ import taxRateRoutes   from '../../modules/tax-rate/tax-rate.routes';
 import productRoutes   from '../../modules/product/product.routes';
 import supplierRoutes  from '../../modules/supplier/supplier.routes';
 import customerRoutes  from '../../modules/customer/customer.routes';
-
-// Placeholder
 import warehouseRoutes from '../../modules/warehouse/warehouse.routes';
 
 const v1Router = Router();
@@ -34,8 +32,6 @@ v1Router.use('/tax-rates',   taxRateRoutes);
 v1Router.use('/products',    productRoutes);
 v1Router.use('/suppliers',   supplierRoutes);
 v1Router.use('/customers',   customerRoutes);
-
-// Placeholders
 v1Router.use('/warehouses',  warehouseRoutes);
 
 export default v1Router;

@@ -1,7 +1,7 @@
 // ================================
 // Prisma Schema
 // Project: Billing & Inventory Management System
-// Sprint: 2.1 — Master Data Foundation
+// Sprint: 2.1 â€” Master Data Foundation
 // ================================
 
 generator client {
@@ -14,7 +14,7 @@ datasource db {
 }
 
 // ================================
-// System Table — Sprint 1.2
+// System Table â€” Sprint 1.2
 // ================================
 model SystemHealth {
   id        Int      @id @default(autoincrement())
@@ -173,14 +173,26 @@ model Customer {
 // Warehouse
 // Storage locations for inventory
 // ================================
+// ================================
+// Warehouse
+// Physical storage locations for inventory
+// ================================
 model Warehouse {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique
-  location    String?
-  address     String?
-  isActive    Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id           Int       @id @default(autoincrement())
+  name         String    @unique
+  code         String    @unique
+  location     String
+  address      String?
+  city         String?
+  state        String?
+  country      String?
+  postalCode   String?
+  managerName  String?
+  managerPhone String?   @unique
+  description  String?
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@map("warehouses")
 }
