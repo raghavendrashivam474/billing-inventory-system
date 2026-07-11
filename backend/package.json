@@ -26,6 +26,7 @@
     "cors": "^2.8.6",
     "create-require": "^1.1.1",
     "debug": "^4.4.3",
+    "decimal.js": "^10.6.0",
     "depd": "^2.0.0",
     "diff": "^4.0.4",
     "dotenv": "^17.4.2",
@@ -124,6 +125,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@types/cors": "^2.8.19",
+    "@types/decimal.js": "^0.0.32",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
     "@types/morgan": "^1.9.10",
