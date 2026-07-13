@@ -1,4 +1,4 @@
-// API v1 Router — Sprint 3.2
+// API v1 Router — Sprint 3.2 M3
 import { Router, Request, Response } from 'express';
 import { healthController }           from '../../modules/health/health.controller';
 import { healthRoutes }               from '../../modules/health';
@@ -13,6 +13,7 @@ import customerRoutes      from '../../modules/customer/customer.routes';
 import warehouseRoutes     from '../../modules/warehouse/warehouse.routes';
 import purchaseOrderRoutes from '../../modules/purchase-order/purchase-order.routes';
 import goodsReceiptRoutes  from '../../modules/goods-receipt/goods-receipt.routes';
+import inventoryRoutes     from '../../modules/inventory/inventory.routes';
 
 const v1Router = Router();
 
@@ -20,15 +21,16 @@ v1Router.get('/',       (req: Request, res: Response) => healthController.getApi
 v1Router.get('/status', (req: Request, res: Response) => healthController.getStatus(req, res));
 v1Router.use('/health', healthRoutes);
 
-v1Router.use('/categories',     categoryRoutes);
-v1Router.use('/brands',         brandRoutes);
-v1Router.use('/units',          unitRoutes);
-v1Router.use('/tax-rates',      taxRateRoutes);
-v1Router.use('/products',       productRoutes);
-v1Router.use('/suppliers',      supplierRoutes);
-v1Router.use('/customers',      customerRoutes);
-v1Router.use('/warehouses',     warehouseRoutes);
+v1Router.use('/categories',      categoryRoutes);
+v1Router.use('/brands',          brandRoutes);
+v1Router.use('/units',           unitRoutes);
+v1Router.use('/tax-rates',       taxRateRoutes);
+v1Router.use('/products',        productRoutes);
+v1Router.use('/suppliers',       supplierRoutes);
+v1Router.use('/customers',       customerRoutes);
+v1Router.use('/warehouses',      warehouseRoutes);
 v1Router.use('/purchase-orders', purchaseOrderRoutes);
-v1Router.use('/goods-receipts', goodsReceiptRoutes);
+v1Router.use('/goods-receipts',  goodsReceiptRoutes);
+v1Router.use('/inventory',       inventoryRoutes);
 
 export default v1Router;
