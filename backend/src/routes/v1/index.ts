@@ -1,19 +1,20 @@
-// API v1 Router — Sprint 3.2 M3
+// API v1 Router — Sprint 3.2 Final
 import { Router, Request, Response } from 'express';
 import { healthController }           from '../../modules/health/health.controller';
 import { healthRoutes }               from '../../modules/health';
 
-import categoryRoutes      from '../../modules/category/category.routes';
-import brandRoutes         from '../../modules/brand/brand.routes';
-import unitRoutes          from '../../modules/unit/unit.routes';
-import taxRateRoutes       from '../../modules/tax-rate/tax-rate.routes';
-import productRoutes       from '../../modules/product/product.routes';
-import supplierRoutes      from '../../modules/supplier/supplier.routes';
-import customerRoutes      from '../../modules/customer/customer.routes';
-import warehouseRoutes     from '../../modules/warehouse/warehouse.routes';
-import purchaseOrderRoutes from '../../modules/purchase-order/purchase-order.routes';
-import goodsReceiptRoutes  from '../../modules/goods-receipt/goods-receipt.routes';
-import inventoryRoutes     from '../../modules/inventory/inventory.routes';
+import categoryRoutes       from '../../modules/category/category.routes';
+import brandRoutes          from '../../modules/brand/brand.routes';
+import unitRoutes           from '../../modules/unit/unit.routes';
+import taxRateRoutes        from '../../modules/tax-rate/tax-rate.routes';
+import productRoutes        from '../../modules/product/product.routes';
+import supplierRoutes       from '../../modules/supplier/supplier.routes';
+import customerRoutes       from '../../modules/customer/customer.routes';
+import warehouseRoutes      from '../../modules/warehouse/warehouse.routes';
+import purchaseOrderRoutes  from '../../modules/purchase-order/purchase-order.routes';
+import goodsReceiptRoutes   from '../../modules/goods-receipt/goods-receipt.routes';
+import inventoryRoutes      from '../../modules/inventory/inventory.routes';
+import stockMovementRoutes  from '../../modules/stock-movement/stock-movement.routes';
 
 const v1Router = Router();
 
@@ -32,5 +33,6 @@ v1Router.use('/warehouses',      warehouseRoutes);
 v1Router.use('/purchase-orders', purchaseOrderRoutes);
 v1Router.use('/goods-receipts',  goodsReceiptRoutes);
 v1Router.use('/inventory',       inventoryRoutes);
+v1Router.use('/stock-movements', stockMovementRoutes);
 
 export default v1Router;
