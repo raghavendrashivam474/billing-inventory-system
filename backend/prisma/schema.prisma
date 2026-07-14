@@ -1,7 +1,7 @@
 // ================================
 // Prisma Schema
 // Project: Billing & Inventory Management System
-// Sprint: 3.2 -- Goods Receipt, Inventory, Stock Movement
+// Sprint: 3.3 -- Stock Adjustment Management
 // ================================
 
 generator client {
@@ -95,6 +95,7 @@ model Product {
   goodsReceiptItems  GoodsReceiptItem[]
   inventories        Inventory[]
   stockMovements     StockMovement[]
+  stockAdjustments   StockAdjustment[]
 
   @@map("products")
 }
@@ -156,14 +157,18 @@ model Warehouse {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  purchaseOrders PurchaseOrder[]
-  goodsReceipts  GoodsReceipt[]
-  inventories    Inventory[]
-  stockMovements StockMovement[]
+  purchaseOrders   PurchaseOrder[]
+  goodsReceipts    GoodsReceipt[]
+  inventories      Inventory[]
+  stockMovements   StockMovement[]
+  stockAdjustments StockAdjustment[]
 
   @@map("warehouses")
 }
 
+// ================================
+// Enums -- Purchase Order
+// ================================
 enum PurchaseOrderStatus {
   DRAFT
   CONFIRMED
@@ -176,6 +181,9 @@ enum PurchaseOrderReceiptStatus {
   FULLY_RECEIVED
 }
 
+// ================================
+// Enums -- Stock
+// ================================
 enum StockMovementType {
   PURCHASE_RECEIPT
   SALE
@@ -195,6 +203,26 @@ enum StockReferenceType {
   RETURN
 }
 
+// ================================
+// Enums -- Stock Adjustment
+// ================================
+enum StockAdjustmentType {
+  INCREASE
+  DECREASE
+}
+
+enum StockAdjustmentReason {
+  PHYSICAL_COUNT
+  DAMAGED
+  LOST
+  EXPIRED
+  DATA_CORRECTION
+  OTHER
+}
+
+// ================================
+// PurchaseOrder
+// ================================
 model PurchaseOrder {
   id            Int                        @id @default(autoincrement())
   orderNumber   String                     @unique
@@ -305,4 +333,27 @@ model StockMovement {
   warehouse Warehouse @relation(fields: [warehouseId], references: [id])
 
   @@map("stock_movements")
+}
+
+// ================================
+// StockAdjustment
+// Sprint: 3.3 -- Stock Adjustment Management
+// ================================
+model StockAdjustment {
+  id               Int                   @id @default(autoincrement())
+  adjustmentNumber String                @unique
+  productId        Int
+  warehouseId      Int
+  adjustmentType   StockAdjustmentType
+  quantity         Decimal               @db.Decimal(10, 3)
+  reason           StockAdjustmentReason
+  notes            String?
+  quantityBefore   Decimal               @db.Decimal(10, 3)
+  quantityAfter    Decimal               @db.Decimal(10, 3)
+  createdAt        DateTime              @default(now())
+
+  product   Product   @relation(fields: [productId],   references: [id])
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+
+  @@map("stock_adjustments")
 }
