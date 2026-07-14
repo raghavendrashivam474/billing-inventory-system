@@ -1,6 +1,6 @@
 ﻿# Billing & Inventory Management System
 
-> **A production-oriented full-stack Billing & Inventory Management System that models real-world retail operations using modern software engineering practices, clean architecture, transactional workflows, immutable audit ledgers, and production-ready development practices.**
+> **A production-oriented full-stack Billing & Inventory Management System that models real-world retail operations using modern software engineering practices, clean architecture, transactional workflows, controlled inventory mutations, immutable audit ledgers, and production-ready development practices.**
 
 This project is being developed as a learning and portfolio initiative to understand how enterprise billing, purchasing, inventory, and business operation systems are architected, implemented, documented, tested, and maintained throughout their complete software development lifecycle.
 
@@ -8,22 +8,23 @@ This project is being developed as a learning and portfolio initiative to unders
 
 # Project Status
 
-| Item                          | Status                                                     |
-| ----------------------------- | ---------------------------------------------------------- |
-| **Version**                   | `v1.0.0`                                                   |
-| **Current Phase**             | **Phase 3 — Business Operations**                          |
-| **Latest Completed Sprint**   | **Sprint 3.2 — Goods Receipt, Inventory & Stock Movement** |
-| **Next Sprint**               | **Sprint 3.3 — Stock Adjustment**                          |
-| **Development Status**        | 🟢 Active                                                  |
-| **Foundation**                | ✅ Complete                                                 |
-| **Master Data**               | ✅ Complete                                                 |
-| **Business Partner Layer**    | ✅ Complete                                                 |
-| **Business Modules**          | ✅ Complete                                                 |
-| **Purchase Order Management** | ✅ Complete                                                 |
-| **Goods Receipt Workflow**    | ✅ Complete                                                 |
-| **Inventory Foundation**      | ✅ Complete                                                 |
-| **Stock Movement Ledger**     | ✅ Complete                                                 |
-| **Business Operations**       | 🚧 In Progress                                             |
+| Item                          | Status                                       |
+| ----------------------------- | -------------------------------------------- |
+| **Version**                   | `v1.1.0`                                     |
+| **Current Phase**             | **Phase 3 — Business Operations**            |
+| **Latest Completed Sprint**   | **Sprint 3.3 — Stock Adjustment Management** |
+| **Next Sprint**               | **Sprint 3.4 — Sales Order Management**      |
+| **Development Status**        | 🟢 Active                                    |
+| **Foundation**                | ✅ Complete                                   |
+| **Master Data**               | ✅ Complete                                   |
+| **Business Partner Layer**    | ✅ Complete                                   |
+| **Business Modules**          | ✅ Complete                                   |
+| **Purchase Management**       | ✅ Complete                                   |
+| **Goods Receipt Workflow**    | ✅ Complete                                   |
+| **Inventory Foundation**      | ✅ Complete                                   |
+| **Stock Movement Ledger**     | ✅ Complete                                   |
+| **Stock Adjustment Workflow** | ✅ Complete                                   |
+| **Business Operations**       | 🚧 In Progress                               |
 
 ---
 
@@ -64,11 +65,12 @@ This project is being developed as a learning and portfolio initiative to unders
 * ✅ Goods Receipt Management
 * ✅ Inventory Balance Management
 * ✅ Stock Movement Ledger
-* ⏳ Stock Adjustment
-* ⏳ Sales Management
+* ✅ Stock Adjustment Management
+* ⏳ Sales Order Management
 * ⏳ Billing
 * ⏳ Invoice Generation
 * ⏳ Payment Processing
+* ⏳ Stock Transfer
 
 ---
 
@@ -145,18 +147,244 @@ Current capabilities include:
 
 * ✅ Product + Warehouse inventory balances
 * ✅ Unique inventory record per Product and Warehouse
-* ✅ Automatic inventory creation on first stock receipt
-* ✅ Atomic quantity increments
+* ✅ Automatic inventory creation on first inbound stock event
+* ✅ Atomic quantity mutations
 * ✅ Inventory lookup by ID
 * ✅ Inventory lookup by Product
 * ✅ Cross-warehouse Product stock visibility
 * ✅ Warehouse filtering
 * ✅ Pagination and sorting
 * ✅ System-managed stock balances
+* ✅ Negative inventory prevention
+* ✅ Business-event-controlled mutations
 
 Inventory is not directly modified through a public create, update, or delete API.
 
 Stock quantities change only through controlled business workflows.
+
+Current inventory mutation workflows are:
+
+```text
+Goods Receipt
+      │
+      └── Increases Inventory
+
+Stock Adjustment — INCREASE
+      │
+      └── Increases Inventory
+
+Stock Adjustment — DECREASE
+      │
+      └── Decreases Inventory
+```
+
+---
+
+# Stock Adjustment Capabilities
+
+Stock Adjustment provides a controlled workflow for correcting inventory balances.
+
+Adjustments are intended for exceptional inventory corrections such as:
+
+* Physical stock count differences
+* Damaged stock
+* Lost stock
+* Expired stock
+* Data corrections
+* Other documented corrections
+
+Current capabilities include:
+
+* ✅ Stock increase adjustments
+* ✅ Stock decrease adjustments
+* ✅ Product validation
+* ✅ Warehouse validation
+* ✅ Positive client-supplied quantity enforcement
+* ✅ Service-layer signed quantity calculation
+* ✅ Negative inventory prevention
+* ✅ Missing inventory handling
+* ✅ Backend-generated Adjustment numbers
+* ✅ Quantity-before snapshot
+* ✅ Quantity-after calculation
+* ✅ Automatic Inventory mutation
+* ✅ Automatic Stock Movement creation
+* ✅ Atomic adjustment posting
+* ✅ Immutable posted adjustments
+* ✅ Full filtering and pagination
+
+Adjustment numbers follow:
+
+```text
+ADJ-YYYY-NNNNNN
+```
+
+Example:
+
+```text
+ADJ-2026-000001
+```
+
+---
+
+# Stock Adjustment Domain Model
+
+A Stock Adjustment records:
+
+```text
+Adjustment Number
+Product
+Warehouse
+Adjustment Type
+Quantity
+Reason
+Notes
+Quantity Before
+Quantity After
+Timestamp
+```
+
+Supported adjustment types:
+
+```text
+INCREASE
+DECREASE
+```
+
+Supported reasons:
+
+```text
+PHYSICAL_COUNT
+DAMAGED
+LOST
+EXPIRED
+DATA_CORRECTION
+OTHER
+```
+
+The client always submits a positive quantity.
+
+Signed quantity semantics are controlled by the service layer.
+
+```text
+Client
+   │
+   └── quantity = 2
+            │
+            ▼
+Adjustment Type
+   │
+   ├── INCREASE → signedQuantity = +2
+   │
+   └── DECREASE → signedQuantity = -2
+```
+
+The API contract therefore represents quantity magnitude while the domain service determines stock direction.
+
+---
+
+# Stock Adjustment Workflow
+
+```text
+Create Stock Adjustment
+        │
+        ▼
+Validate Product
+        │
+        ├── Must exist
+        └── Must be active
+        │
+        ▼
+Validate Warehouse
+        │
+        ├── Must exist
+        └── Must be active
+        │
+        ▼
+Resolve Inventory
+        │
+        ├── INCREASE + missing inventory
+        │       └── Start from quantity 0
+        │
+        └── DECREASE + missing inventory
+                └── Reject with 422
+        │
+        ▼
+Calculate Signed Quantity
+        │
+        ├── INCREASE → +quantity
+        └── DECREASE → -quantity
+        │
+        ▼
+Calculate Quantity After
+        │
+        ▼
+Validate Non-Negative Inventory
+        │
+        ▼
+Generate Adjustment Number
+        │
+        ▼
+Atomic Transaction
+        │
+        ├── Create Stock Adjustment
+        ├── Create or Update Inventory
+        └── Create Stock Movement
+        │
+        ▼
+Commit
+```
+
+Any failure causes the entire workflow to roll back.
+
+---
+
+# Missing Inventory Policy
+
+The system explicitly defines behavior when no Product + Warehouse inventory record exists.
+
+| Scenario                            | Behavior                                   |
+| ----------------------------------- | ------------------------------------------ |
+| `INCREASE` with no inventory record | Create Inventory with `quantityBefore = 0` |
+| `DECREASE` with no inventory record | Reject with HTTP `422`                     |
+
+This prevents stock from being removed from an inventory balance that does not exist.
+
+---
+
+# Negative Inventory Prevention
+
+Stock Adjustment cannot reduce inventory below zero.
+
+```text
+quantityAfter
+    =
+quantityBefore
+    +
+signedQuantity
+```
+
+Before posting:
+
+```text
+IF quantityAfter < 0
+    REJECT ADJUSTMENT
+```
+
+Example:
+
+```text
+Current Inventory = 5
+
+Requested Adjustment
+DECREASE 7
+
+5 + (-7) = -2
+
+Result
+→ 422 Unprocessable Entity
+```
+
+Negative inventory is therefore prevented at the business workflow layer.
 
 ---
 
@@ -178,30 +406,27 @@ Reference ID
 Timestamp
 ```
 
-The current stock workflow creates one Stock Movement for every received Goods Receipt Item.
-
-Example:
+Current stock movement types used by implemented workflows include:
 
 ```text
-Inventory Before
-      │
-      ▼
-      2
-      │
-      │  PURCHASE_RECEIPT +3
-      ▼
-Inventory After
-      │
-      ▼
-      5
+PURCHASE_RECEIPT
+ADJUSTMENT_IN
+ADJUSTMENT_OUT
 ```
 
-The corresponding Stock Movement records:
+Example ledger:
 
 ```text
-quantityBefore = 2
-quantity       = 3
-quantityAfter  = 5
+PURCHASE_RECEIPT  +1    0 → 1
+PURCHASE_RECEIPT  +1    1 → 2
+ADJUSTMENT_IN     +5    2 → 7
+ADJUSTMENT_OUT    -2    7 → 5
+```
+
+Final Inventory quantity:
+
+```text
+5
 ```
 
 Stock Movements are immutable audit records.
@@ -210,53 +435,307 @@ They cannot be edited or deleted through the public API.
 
 ---
 
-# Engineering Documentation
+# Inventory and Ledger Invariant
 
-* ✅ Sprint Briefs
-* ✅ Sprint Completion Reports
-* ✅ Architecture Decision Records
-* ✅ Project Structure Guide
-* ✅ Coding Standards
-* ✅ Design Principles
-* ✅ Development Workflow
-* ✅ Roadmap
-* ✅ Glossary
-* ✅ Business Documentation
+The system maintains the following stock invariant:
+
+```text
+quantityAfter
+    =
+quantityBefore
+    +
+signedQuantity
+```
+
+For the latest movement of a Product within a Warehouse:
+
+```text
+Latest StockMovement.quantityAfter
+    =
+Inventory.quantity
+```
+
+Example:
+
+```text
+Stock Movement Ledger
+│
+├── 0 + 1  = 1
+├── 1 + 1  = 2
+├── 2 + 5  = 7
+└── 7 - 2  = 5
+             │
+             ▼
+Inventory Quantity = 5
+```
+
+This invariant has been verified across Goods Receipt and Stock Adjustment workflows.
 
 ---
 
-# Technology Stack
+# Inventory Mutation Through Business Events
 
-## Frontend
+Inventory is treated as system-managed state.
 
-* React
-* Vite
-* TypeScript
-* Axios
+Public clients cannot directly perform:
 
-## Backend
+```text
+POST   /inventory
+PATCH  /inventory/:id
+DELETE /inventory/:id
+```
 
-* Node.js
-* Express
-* TypeScript
+Instead:
 
-## Database
+```text
+Business Event
+      │
+      ▼
+Domain Validation
+      │
+      ▼
+Inventory Mutation
+      │
+      ▼
+Stock Movement
+```
 
-* PostgreSQL
-* Prisma ORM
+Current inventory-mutating business events:
 
-## Validation & Financial Processing
+```text
+Goods Receipt
+Stock Adjustment
+```
 
-* Zod
-* decimal.js
+Future events may include:
 
-## Infrastructure
+```text
+Sales Fulfillment
+Stock Transfer
+Sales Return
+Purchase Return
+```
 
-* Winston
-* Helmet
-* Morgan
-* CORS
-* UUID
+This architecture ensures that every inventory mutation has a business reason and corresponding audit record.
+
+---
+
+# Complete Stock Workflow
+
+The current inventory architecture supports both stock acquisition and controlled correction.
+
+```text
+Supplier
+   │
+   ▼
+Purchase Order
+   │
+   ▼
+Purchase Order Confirmation
+   │
+   ▼
+Goods Receipt
+   │
+   ▼
+Inventory
+   │
+   ▼
+Stock Movement
+```
+
+Inventory corrections follow:
+
+```text
+Physical / Operational Discrepancy
+              │
+              ▼
+       Stock Adjustment
+              │
+              ▼
+      Inventory Mutation
+              │
+              ▼
+       Stock Movement
+```
+
+Together:
+
+```text
+Purchase Order
+      │
+      └── WHAT WE INTEND TO BUY
+
+Goods Receipt
+      │
+      └── WHAT WE PHYSICALLY RECEIVED
+
+Stock Adjustment
+      │
+      └── WHY STOCK WAS CORRECTED
+
+Inventory
+      │
+      └── WHAT STOCK WE CURRENTLY HAVE
+
+Stock Movement
+      │
+      └── HOW STOCK CHANGED OVER TIME
+```
+
+---
+
+# Transaction Safety
+
+Transactional business workflows use Prisma database transactions.
+
+For Goods Receipt posting:
+
+```text
+BEGIN TRANSACTION
+
+Create Goods Receipt
+        │
+        ▼
+Create Goods Receipt Items
+        │
+        ▼
+Update Inventory Balances
+        │
+        ▼
+Create Stock Movements
+        │
+        ▼
+Recalculate PO Receipt Status
+
+COMMIT
+```
+
+For Stock Adjustment posting:
+
+```text
+BEGIN TRANSACTION
+
+Create Stock Adjustment
+        │
+        ▼
+Create or Update Inventory
+        │
+        ▼
+Create Stock Movement
+
+COMMIT
+```
+
+If any operation fails:
+
+```text
+ROLLBACK
+```
+
+This prevents:
+
+* Inventory changes without business events
+* Business events without inventory changes
+* Inventory changes without audit movements
+* Stock Movements without matching inventory state
+* Partially persisted transactional workflows
+
+---
+
+# Inventory State and Ledger Strategy
+
+The system separates current inventory state from historical stock events.
+
+```text
+Inventory
+    │
+    └── CURRENT STATE
+
+Stock Movement
+    │
+    └── HISTORICAL LEDGER
+```
+
+Example:
+
+```text
+Stock Movements
+│
+├── +10 PURCHASE_RECEIPT
+├── -2 ADJUSTMENT_OUT
+├── +1 ADJUSTMENT_IN
+└── -1 ADJUSTMENT_OUT
+
+             │
+             ▼
+
+Inventory Quantity = 8
+```
+
+Inventory provides efficient current-state reads.
+
+Stock Movements preserve the complete historical audit trail.
+
+---
+
+# Financial Calculation Strategy
+
+Financial calculations are performed on the server using `decimal.js`.
+
+Example:
+
+```text
+Base Amount
+    =
+Quantity × Unit Cost
+
+Tax Amount
+    =
+Base Amount × Tax Rate / 100
+
+Line Total
+    =
+Base Amount + Tax Amount
+```
+
+Purchase Order totals are derived from all calculated items:
+
+```text
+Subtotal
+    =
+Σ Base Amount
+
+Tax Amount
+    =
+Σ Item Tax Amount
+
+Total Amount
+    =
+Subtotal + Tax Amount
+```
+
+The client cannot directly provide calculated totals.
+
+---
+
+# Historical Tax Snapshot Strategy
+
+Tax rates are copied into Purchase Order Items when the transaction is created.
+
+```text
+Product
+   │
+   └── Current Tax Rate
+             │
+             ▼
+Purchase Order Item
+   │
+   └── Tax Rate Snapshot
+```
+
+Future changes to a Product's tax configuration do not modify historical Purchase Orders.
+
+This preserves transaction history and financial consistency.
 
 ---
 
@@ -345,305 +824,15 @@ Business Operations
 │
 ├── Inventory             ✅
 ├── Stock Movement        ✅
-├── Stock Adjustment      ⏳
-├── Sales                 ⏳
+├── Stock Adjustment      ✅
+├── Sales Order           ⏳
 ├── Billing               ⏳
 ├── Invoice               ⏳
-└── Payments              ⏳
+├── Payments              ⏳
+└── Stock Transfer        ⏳
 ```
 
-The system has moved beyond independent CRUD-oriented business modules and now implements coordinated transactional workflows with inventory state management and immutable audit records.
-
----
-
-# Complete Stock Acquisition Workflow
-
-The current business operation architecture implements the following workflow:
-
-```text
-Supplier
-   │
-   ▼
-Purchase Order
-   │
-   ├── Purchase Order Items
-   │
-   ▼
-Purchase Order Confirmation
-   │
-   ▼
-Goods Receipt
-   │
-   ├── Goods Receipt Items
-   │
-   ▼
-Inventory Balance Update
-   │
-   ▼
-Stock Movement Ledger
-```
-
-The workflow preserves a clear distinction between commercial intent, physical stock events, current state, and historical audit records.
-
-```text
-Purchase Order
-      │
-      └── WHAT WE INTEND TO BUY
-
-Goods Receipt
-      │
-      └── WHAT WE PHYSICALLY RECEIVED
-
-Inventory
-      │
-      └── WHAT STOCK WE CURRENTLY HAVE
-
-Stock Movement
-      │
-      └── HOW THE STOCK CHANGED
-```
-
----
-
-# Purchase Order Lifecycle
-
-```text
-             ┌───────────────┐
-             │     DRAFT     │
-             └───────┬───────┘
-                     │
-              Confirm Order
-                     │
-                     ▼
-             ┌───────────────┐
-             │   CONFIRMED   │
-             └───────┬───────┘
-                     │
-                  Cancel
-                     │
-                     ▼
-             ┌───────────────┐
-             │   CANCELLED   │
-             └───────────────┘
-```
-
-A DRAFT Purchase Order may be modified.
-
-Once confirmed, the order becomes immutable.
-
-Purchase Order confirmation revalidates all referenced business entities before completing the lifecycle transition.
-
----
-
-# Purchase Order Receipt Progress
-
-Purchase Order lifecycle status and receipt progress are modeled independently.
-
-```text
-Purchase Order Status
-│
-├── DRAFT
-├── CONFIRMED
-└── CANCELLED
-
-Receipt Status
-│
-├── NOT_RECEIVED
-├── PARTIALLY_RECEIVED
-└── FULLY_RECEIVED
-```
-
-Example:
-
-```text
-Purchase Order
-│
-├── status        = CONFIRMED
-└── receiptStatus = PARTIALLY_RECEIVED
-```
-
-This allows commercial lifecycle state and physical fulfillment progress to evolve independently.
-
----
-
-# Goods Receipt Workflow
-
-```text
-Confirmed Purchase Order
-        │
-        ▼
-Create Goods Receipt
-        │
-        ▼
-Validate Purchase Order
-        │
-        ├── Status must be CONFIRMED
-        └── Warehouse must match
-        │
-        ▼
-Validate Receipt Items
-        │
-        ├── PO Item ownership
-        ├── Positive quantity
-        ├── Duplicate rejection
-        └── Over-receipt prevention
-        │
-        ▼
-Generate GRN Number
-        │
-        ▼
-Atomic Transaction
-        │
-        ├── Create Goods Receipt
-        ├── Create Receipt Items
-        ├── Update Inventory
-        ├── Create Stock Movements
-        └── Recalculate PO Receipt Status
-        │
-        ▼
-Commit
-```
-
-Any failure causes the complete workflow to roll back.
-
----
-
-# Transaction Safety
-
-Transactional business workflows use Prisma database transactions.
-
-For Goods Receipt posting:
-
-```text
-BEGIN TRANSACTION
-
-Create Goods Receipt
-        │
-        ▼
-Create Goods Receipt Items
-        │
-        ▼
-Update Inventory Balances
-        │
-        ▼
-Create Stock Movements
-        │
-        ▼
-Recalculate PO Receipt Status
-
-COMMIT
-```
-
-If any operation fails:
-
-```text
-ROLLBACK
-```
-
-This prevents:
-
-* Partial Goods Receipts
-* Inventory updates without audit movements
-* Stock Movements without inventory updates
-* Incorrect Purchase Order receipt status
-* Partially persisted business events
-
----
-
-# Inventory State and Ledger Strategy
-
-The system separates current inventory state from historical stock events.
-
-```text
-Inventory
-    │
-    └── CURRENT STATE
-
-Stock Movement
-    │
-    └── HISTORICAL LEDGER
-```
-
-Example:
-
-```text
-Stock Movements
-│
-├── +10 PURCHASE_RECEIPT
-├── -2 SALE
-├── +1 ADJUSTMENT_IN
-└── -1 ADJUSTMENT_OUT
-
-             │
-             ▼
-
-Inventory Quantity = 8
-```
-
-Inventory provides efficient current-state reads.
-
-Stock Movements preserve the complete historical audit trail.
-
----
-
-# Financial Calculation Strategy
-
-Financial calculations are performed on the server using `decimal.js`.
-
-Example:
-
-```text
-Base Amount
-    =
-Quantity × Unit Cost
-
-Tax Amount
-    =
-Base Amount × Tax Rate / 100
-
-Line Total
-    =
-Base Amount + Tax Amount
-```
-
-Purchase Order totals are derived from all calculated items:
-
-```text
-Subtotal
-    =
-Σ Base Amount
-
-Tax Amount
-    =
-Σ Item Tax Amount
-
-Total Amount
-    =
-Subtotal + Tax Amount
-```
-
-The client cannot directly provide calculated totals.
-
----
-
-# Historical Tax Snapshot Strategy
-
-Tax rates are copied into Purchase Order Items when the transaction is created.
-
-```text
-Product
-   │
-   └── Current Tax Rate
-             │
-             ▼
-Purchase Order Item
-   │
-   └── Tax Rate Snapshot
-```
-
-Future changes to a Product's tax configuration do not modify historical Purchase Orders.
-
-This preserves transaction history and financial consistency.
+The system has moved beyond independent CRUD-oriented modules and now implements coordinated transactional workflows, controlled inventory mutations, current-state balance management, and immutable stock audit records.
 
 ---
 
@@ -722,7 +911,52 @@ GET /api/v1/stock-movements
 GET /api/v1/stock-movements/:id
 ```
 
-The current release exposes **56 business API endpoints**.
+## Stock Adjustments
+
+```text
+GET  /api/v1/stock-adjustments
+GET  /api/v1/stock-adjustments/:id
+POST /api/v1/stock-adjustments
+```
+
+Stock Adjustments intentionally expose no update or delete endpoints.
+
+The current release exposes **68 business API endpoints**.
+
+---
+
+# Technology Stack
+
+## Frontend
+
+* React
+* Vite
+* TypeScript
+* Axios
+
+## Backend
+
+* Node.js
+* Express
+* TypeScript
+
+## Database
+
+* PostgreSQL
+* Prisma ORM
+
+## Validation & Financial Processing
+
+* Zod
+* decimal.js
+
+## Infrastructure
+
+* Winston
+* Helmet
+* Morgan
+* CORS
+* UUID
 
 ---
 
@@ -830,14 +1064,45 @@ Current ADR topics include:
 * Purchase Order Number Generation
 * Inventory Balance and Stock Movement Ledger
 * Separate Purchase Order Receipt Progress
+* Inventory Mutation Through Business Events
 
-The repository currently maintains **14 Architecture Decision Records**.
+The repository currently maintains **15 Architecture Decision Records**.
 
 ADR documents are maintained inside:
 
 ```text
 docs/adr/
 ```
+
+---
+
+# Engineering Practices
+
+This repository emphasizes:
+
+* Clean Architecture
+* Layered Design
+* Aggregate-Oriented Transaction Design
+* Domain-Oriented Development
+* Modular Software Design
+* REST API Design
+* Repository Pattern
+* Service Layer Pattern
+* Database Transaction Boundaries
+* Decimal-Safe Financial Arithmetic
+* Historical Data Snapshotting
+* Business Lifecycle State Machines
+* Immutable Business Events
+* Immutable Audit Ledgers
+* System-Managed Inventory State
+* Controlled Inventory Mutations
+* Negative Inventory Prevention
+* Transactional Workflow Orchestration
+* Professional Git Workflow
+* Conventional Commits
+* Architecture Decision Records
+* Documentation-First Development
+* Incremental Sprint-Based Development
 
 ---
 
@@ -869,11 +1134,12 @@ docs/adr/
 * ✅ Goods Receipt Management
 * ✅ Inventory Management Foundation
 * ✅ Stock Movement Ledger
-* ⏳ Stock Adjustment
-* ⏳ Sales Management
+* ✅ Stock Adjustment Management
+* ⏳ Sales Order Management
 * ⏳ Billing
 * ⏳ Invoice Generation
 * ⏳ Payment Processing
+* ⏳ Stock Transfer
 
 ---
 
@@ -899,55 +1165,6 @@ docs/adr/
 
 ---
 
-# Quick Start
-
-Clone the repository:
-
-```bash
-git clone https://github.com/raghavendrashivam474/billing-inventory-system.git
-```
-
-Navigate into the project:
-
-```bash
-cd billing-inventory-system
-```
-
-Follow the setup guide:
-
-```text
-docs/setup-instructions.md
-```
-
----
-
-# Engineering Practices
-
-This repository emphasizes:
-
-* Clean Architecture
-* Layered Design
-* Aggregate-Oriented Transaction Design
-* Domain-Oriented Development
-* Modular Software Design
-* REST API Design
-* Repository Pattern
-* Service Layer Pattern
-* Database Transaction Boundaries
-* Decimal-Safe Financial Arithmetic
-* Historical Data Snapshotting
-* Business Lifecycle State Machines
-* Immutable Audit Ledgers
-* System-Managed Inventory State
-* Transactional Workflow Orchestration
-* Professional Git Workflow
-* Conventional Commits
-* Architecture Decision Records
-* Documentation-First Development
-* Incremental Sprint-Based Development
-
----
-
 # Current Progress
 
 | Phase                 | Status         |
@@ -960,6 +1177,7 @@ This repository emphasizes:
 | Goods Receipt         | ✅ Complete     |
 | Inventory Foundation  | ✅ Complete     |
 | Stock Movement Ledger | ✅ Complete     |
+| Stock Adjustment      | ✅ Complete     |
 | Business Operations   | 🚧 In Progress |
 | Analytics             | ⏳ Planned      |
 | Production Readiness  | ⏳ Planned      |
@@ -981,6 +1199,8 @@ This repository demonstrates:
 * Domain-Oriented Module Organization
 * Business Lifecycle Modeling
 * Inventory State Management
+* Controlled Inventory Mutation
+* Negative Inventory Prevention
 * Immutable Stock Audit Ledgers
 * Transactional Workflow Coordination
 * Engineering Documentation Practices
@@ -1002,6 +1222,29 @@ This repository demonstrates:
 | `v0.8.1` | Phase 3 Transition Documentation                     |
 | `v0.9.0` | Purchase Order Transactional Foundation              |
 | `v1.0.0` | Goods Receipt, Inventory & Stock Movement Foundation |
+| `v1.1.0` | Stock Adjustment & Controlled Inventory Mutation     |
+
+---
+
+# Quick Start
+
+Clone the repository:
+
+```bash
+git clone https://github.com/raghavendrashivam474/billing-inventory-system.git
+```
+
+Navigate into the project:
+
+```bash
+cd billing-inventory-system
+```
+
+Follow the setup guide:
+
+```text
+docs/setup-instructions.md
+```
 
 ---
 
