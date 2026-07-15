@@ -1,21 +1,22 @@
-// API v1 Router — Sprint 3.3 Final
+// API v1 Router — Sprint 3.4
 import { Router, Request, Response } from 'express';
 import { healthController }           from '../../modules/health/health.controller';
 import { healthRoutes }               from '../../modules/health';
 
-import categoryRoutes         from '../../modules/category/category.routes';
-import brandRoutes            from '../../modules/brand/brand.routes';
-import unitRoutes             from '../../modules/unit/unit.routes';
-import taxRateRoutes          from '../../modules/tax-rate/tax-rate.routes';
-import productRoutes          from '../../modules/product/product.routes';
-import supplierRoutes         from '../../modules/supplier/supplier.routes';
-import customerRoutes         from '../../modules/customer/customer.routes';
-import warehouseRoutes        from '../../modules/warehouse/warehouse.routes';
-import purchaseOrderRoutes    from '../../modules/purchase-order/purchase-order.routes';
-import goodsReceiptRoutes     from '../../modules/goods-receipt/goods-receipt.routes';
-import inventoryRoutes        from '../../modules/inventory/inventory.routes';
-import stockMovementRoutes    from '../../modules/stock-movement/stock-movement.routes';
-import stockAdjustmentRoutes  from '../../modules/stock-adjustment/stock-adjustment.routes';
+import categoryRoutes        from '../../modules/category/category.routes';
+import brandRoutes           from '../../modules/brand/brand.routes';
+import unitRoutes            from '../../modules/unit/unit.routes';
+import taxRateRoutes         from '../../modules/tax-rate/tax-rate.routes';
+import productRoutes         from '../../modules/product/product.routes';
+import supplierRoutes        from '../../modules/supplier/supplier.routes';
+import customerRoutes        from '../../modules/customer/customer.routes';
+import warehouseRoutes       from '../../modules/warehouse/warehouse.routes';
+import purchaseOrderRoutes   from '../../modules/purchase-order/purchase-order.routes';
+import goodsReceiptRoutes    from '../../modules/goods-receipt/goods-receipt.routes';
+import inventoryRoutes       from '../../modules/inventory/inventory.routes';
+import stockMovementRoutes   from '../../modules/stock-movement/stock-movement.routes';
+import stockAdjustmentRoutes from '../../modules/stock-adjustment/stock-adjustment.routes';
+import salesOrderRoutes      from '../../modules/sales-order/sales-order.routes';
 
 const v1Router = Router();
 
@@ -36,5 +37,6 @@ v1Router.use('/goods-receipts',    goodsReceiptRoutes);
 v1Router.use('/inventory',         inventoryRoutes);
 v1Router.use('/stock-movements',   stockMovementRoutes);
 v1Router.use('/stock-adjustments', stockAdjustmentRoutes);
+v1Router.use('/sales-orders',      salesOrderRoutes);
 
 export default v1Router;
