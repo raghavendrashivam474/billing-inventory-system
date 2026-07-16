@@ -1,8 +1,8 @@
 ﻿# Billing & Inventory Management System
 
-> **A production-oriented full-stack Billing & Inventory Management System that models real-world purchasing, inventory, warehousing, sales, and transactional business workflows using clean architecture, modular domain-driven design, immutable audit trails, and production-ready engineering practices.**
+> **A production-oriented full-stack Billing & Inventory Management System that models real-world purchasing, inventory, warehousing, sales, fulfilment, and transactional business workflows using Clean Architecture, Domain-Driven Design, immutable audit trails, and production-ready engineering practices.**
 
-This project is being developed as a learning and portfolio initiative to understand how enterprise billing, inventory, purchasing, warehousing, and sales systems are architected, implemented, tested, documented, and maintained throughout their complete software development lifecycle.
+This project is being developed as a learning and portfolio initiative to understand how enterprise billing, inventory, purchasing, warehousing, sales, fulfilment, and financial systems are architected, implemented, tested, documented, and maintained throughout their complete software development lifecycle.
 
 ---
 
@@ -10,10 +10,10 @@ This project is being developed as a learning and portfolio initiative to unders
 
 | Item | Status |
 |------|--------|
-| **Version** | `v1.2.0` |
+| **Version** | `v1.3.0` |
 | **Current Phase** | **Phase 3 — Business Operations** |
-| **Latest Release** | **v1.2.0 — Sales Order Management** |
-| **Current Focus** | **Sprint 3.5 — Dispatch / Fulfilment** |
+| **Latest Release** | **v1.3.0 — Dispatch / Fulfilment Management** |
+| **Current Focus** | **Sprint 3.6 — Invoice Management** |
 | **Development Status** | 🟢 Active |
 
 ---
@@ -51,15 +51,26 @@ This project is being developed as a learning and portfolio initiative to unders
 
 ## Business Operations
 
+### Procurement
+
 - ✅ Purchase Order Management
 - ✅ Goods Receipt Management
+
+### Inventory
+
 - ✅ Inventory Management
 - ✅ Stock Movement Ledger
 - ✅ Stock Adjustment Management
+
+### Sales
+
 - ✅ Sales Order Management
-- ⏳ Dispatch / Fulfilment
+- ✅ Dispatch / Fulfilment Management
 - ⏳ Invoice Management
 - ⏳ Payment Management
+
+### Warehouse
+
 - ⏳ Stock Transfer
 
 ---
@@ -94,16 +105,16 @@ Sales Order
 Sales Order Confirmation
     │
     ▼
-Dispatch / Fulfilment (Next Sprint)
+Dispatch / Fulfilment
     │
     ▼
-Invoice
+Invoice (Next Sprint)
     │
     ▼
 Payment
 ```
 
-The application currently supports the complete inbound purchasing workflow and the outbound commercial workflow, while maintaining strict separation between commercial intent and physical inventory movement.
+The application now supports both inbound procurement and outbound fulfilment workflows while maintaining strict separation between commercial intent, warehouse execution, inventory state, and financial processing.
 
 ---
 
@@ -112,21 +123,22 @@ The application currently supports the complete inbound purchasing workflow and 
 ## Purchase Management
 
 - Multi-item Purchase Orders
-- Supplier and Warehouse validation
-- Purchase Order lifecycle management
-- Atomic transactional writes
+- Supplier & Warehouse validation
+- Purchase lifecycle management
 - Historical pricing snapshots
 - Receipt progress tracking
+- Atomic transactional writes
 
 ---
 
 ## Goods Receipt
 
-- Partial and multiple receipts
+- Partial receipts
+- Multiple receipts per Purchase Order
 - Automatic inventory creation
 - Automatic inventory updates
 - Automatic stock movement generation
-- Purchase Order receipt tracking
+- Receipt progress tracking
 - Immutable posted receipts
 
 ---
@@ -143,16 +155,21 @@ The application currently supports the complete inbound purchasing workflow and 
 
 ## Stock Movement Ledger
 
-- Immutable inventory audit history
-- Quantity before/after snapshots
-- Business event references
-- Complete inventory traceability
+Complete immutable audit history for every inventory mutation.
 
-Current movement types:
+Supported movement types:
 
 - PURCHASE_RECEIPT
 - ADJUSTMENT_IN
 - ADJUSTMENT_OUT
+- SALE_DISPATCH
+
+Every movement stores:
+
+- Quantity Before
+- Quantity Change
+- Quantity After
+- Business Event Reference
 
 ---
 
@@ -176,10 +193,25 @@ Current movement types:
 - Pricing snapshots
 - Tax snapshots
 - Decimal-safe monetary calculations
-- Draft lifecycle management
+- Draft lifecycle
 - Confirmation workflow
 
-Sales Order confirmation validates inventory availability but intentionally does **not** modify inventory.
+Sales Order confirmation validates inventory but intentionally does **not** mutate inventory.
+
+---
+
+## Dispatch / Fulfilment
+
+- Partial dispatch support
+- Multiple dispatches per Sales Order
+- Inventory deduction
+- Automatic SALE_DISPATCH stock movements
+- Dispatch progress tracking
+- Automatic Sales Order fulfilment
+- Immutable dispatch records
+- Atomic warehouse execution
+
+Dispatch is the only outbound business event that physically removes inventory.
 
 ---
 
@@ -214,14 +246,14 @@ PostgreSQL
 
 Responsibilities are clearly separated.
 
-- **Routes** — HTTP endpoint registration
+- **Routes** — Endpoint registration
 - **Validators** — Request validation
 - **Controllers** — HTTP orchestration
 - **Services** — Business rules & workflows
-- **Repositories** — Database access
-- **Prisma** — Data mapping
+- **Repositories** — Database interaction
+- **Prisma ORM** — Data persistence
 
-All transactional workflows are coordinated through service-layer orchestration using atomic Prisma transactions.
+All business workflows are coordinated through service-layer orchestration using atomic Prisma transactions.
 
 ---
 
@@ -230,42 +262,77 @@ All transactional workflows are coordinated through service-layer orchestration 
 ```text
 Master Data
 │
-├── Category              ✅
-├── Brand                 ✅
-├── Unit                  ✅
-├── Tax Rate              ✅
-├── Product               ✅
-├── Supplier              ✅
-├── Customer              ✅
-└── Warehouse             ✅
+├── Category               ✅
+├── Brand                  ✅
+├── Unit                   ✅
+├── Tax Rate               ✅
+├── Product                ✅
+├── Supplier               ✅
+├── Customer               ✅
+└── Warehouse              ✅
 
 Inbound Operations
 │
-├── Purchase Order        ✅
-│   └── Purchase Items    ✅
+├── Purchase Order         ✅
+│   └── Purchase Items     ✅
 │
-└── Goods Receipt         ✅
-    └── Receipt Items     ✅
+└── Goods Receipt          ✅
+    └── Receipt Items      ✅
 
 Inventory Operations
 │
-├── Inventory             ✅
-├── Stock Movement        ✅
-└── Stock Adjustment      ✅
+├── Inventory              ✅
+├── Stock Movement         ✅
+├── Stock Adjustment       ✅
+└── Dispatch               ✅
 
 Outbound Operations
 │
-├── Sales Order           ✅
-│   └── Sales Order Items ✅
+├── Sales Order            ✅
+│   └── Sales Order Items  ✅
 │
-├── Dispatch              ⏳
-├── Invoice               ⏳
-└── Payment               ⏳
+├── Invoice                ⏳
+└── Payment                ⏳
 
 Warehouse Operations
 │
-└── Stock Transfer        ⏳
+└── Stock Transfer         ⏳
 ```
+
+---
+
+# Event-Driven Inventory Architecture
+
+```text
+Supplier
+    │
+    ▼
+Purchase Order
+    │
+    ▼
+Goods Receipt
+    │
+    ▼
+Inventory (+)
+    │
+    ├──────────────► Stock Adjustment (+/-)
+    │
+    ▼
+Sales Order
+    │
+    ▼
+Dispatch
+    │
+    ▼
+Inventory (-)
+    │
+    ▼
+Stock Movement Ledger
+```
+
+Every inventory mutation originates from a defined business event.
+
+Direct inventory editing is impossible.
 
 ---
 
@@ -276,12 +343,12 @@ Warehouse Operations
 | Infrastructure | 3 |
 | Master Data | 24 |
 | Business Entities | 24 |
-| Transactional Modules | 18 |
+| Transactional Modules | 21 |
 | Read-only Modules | 5 |
 
 ## Total Business API Endpoints
 
-**74**
+**77**
 
 ---
 
@@ -322,11 +389,11 @@ Warehouse Operations
 
 # Engineering Practices
 
-This project emphasizes:
+This repository emphasizes:
 
 - Clean Architecture
 - Layered Design
-- Domain-Driven Modular Design
+- Domain-Driven Design
 - Aggregate-Oriented Transaction Design
 - Repository Pattern
 - Service Layer Pattern
@@ -337,6 +404,7 @@ This project emphasizes:
 - Immutable Business Events
 - Immutable Audit Ledgers
 - Controlled Inventory Mutation
+- Event-Driven Inventory
 - Inventory-Aware Validation
 - Professional Git Workflow
 - Conventional Commits
@@ -350,13 +418,13 @@ This project emphasizes:
 
 | Metric | Value |
 |--------|------:|
-| Current Version | `v1.2.0` |
+| Current Version | `v1.3.0` |
 | Completed Phases | 2 |
-| Completed Sprints | 12 |
-| Architecture Decision Records | 16 |
-| Business API Endpoints | 74 |
+| Completed Sprints | 15 |
+| Architecture Decision Records | 17 |
+| Business API Endpoints | 77 |
 | Master Data Modules | 8 |
-| Transactional Modules | 5 |
+| Transactional Modules | 6 |
 | Database | PostgreSQL |
 | ORM | Prisma |
 | Validation | Zod |
@@ -389,15 +457,26 @@ This project emphasizes:
 
 ## 🚧 Phase 3 — Business Operations
 
-- ✅ Purchase Order Management
-- ✅ Goods Receipt Management
-- ✅ Inventory Foundation
+### Procurement
+
+- ✅ Purchase Orders
+- ✅ Goods Receipts
+
+### Inventory
+
+- ✅ Inventory
 - ✅ Stock Movement Ledger
-- ✅ Stock Adjustment Management
-- ✅ Sales Order Management
-- ⏳ Dispatch / Fulfilment
+- ✅ Stock Adjustments
+
+### Sales
+
+- ✅ Sales Orders
+- ✅ Dispatch / Fulfilment
 - ⏳ Invoice Management
 - ⏳ Payment Management
+
+### Warehouse
+
 - ⏳ Stock Transfer
 
 ---
@@ -405,8 +484,9 @@ This project emphasizes:
 ## ⏳ Phase 4 — Analytics
 
 - Dashboard
-- Reports
-- Business Insights
+- Business Reports
+- Purchase Analytics
+- Sales Analytics
 - Inventory Analytics
 
 ---
@@ -439,6 +519,7 @@ This project emphasizes:
 | `v1.0.0` | Goods Receipt, Inventory & Stock Ledger |
 | `v1.1.0` | Stock Adjustment Workflow |
 | `v1.2.0` | Sales Order Management |
+| `v1.3.0` | Dispatch / Fulfilment Management |
 
 ---
 
@@ -468,7 +549,7 @@ The repository includes comprehensive engineering documentation covering:
 - Architecture Documentation
 - API Documentation
 - Business Documentation
-- Architecture Decision Records (16 ADRs)
+- Architecture Decision Records (17 ADRs)
 - Sprint Briefs
 - Sprint Completion Reports
 - Development Workflow
@@ -478,7 +559,7 @@ The repository includes comprehensive engineering documentation covering:
 - Logging Documentation
 - Health API Documentation
 
-Documentation is treated as a first-class engineering deliverable and evolves alongside the implementation.
+Documentation evolves alongside implementation and is treated as a first-class engineering deliverable.
 
 ---
 
@@ -508,11 +589,12 @@ docs/setup-instructions.md
 
 This repository demonstrates:
 
-- Enterprise Application Architecture
+- Enterprise ERP Architecture
 - Production-Oriented Backend Development
 - Transactional Business Workflow Modeling
 - Relational Database Design
 - Financial Calculation Safety
+- Event-Driven Inventory Management
 - Inventory State Management
 - Controlled Inventory Mutation
 - Immutable Audit Ledgers
