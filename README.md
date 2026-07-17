@@ -1,8 +1,8 @@
 ﻿# Billing & Inventory Management System
 
-> **A production-oriented full-stack Billing & Inventory Management System that models real-world purchasing, inventory, warehousing, sales, fulfilment, and transactional business workflows using Clean Architecture, Domain-Driven Design, immutable audit trails, and production-ready engineering practices.**
+> **A production-oriented full-stack Billing & Inventory Management System that models real-world procurement, inventory, warehousing, sales, fulfilment, billing, and financial workflows using Clean Architecture, Domain-Driven Design, immutable audit trails, and production-ready engineering practices.**
 
-This project is being developed as a learning and portfolio initiative to understand how enterprise billing, inventory, purchasing, warehousing, sales, fulfilment, and financial systems are architected, implemented, tested, documented, and maintained throughout their complete software development lifecycle.
+This project is being developed as a learning and portfolio initiative to understand how enterprise ERP systems are architected, implemented, tested, documented, and maintained throughout their complete software development lifecycle.
 
 ---
 
@@ -10,10 +10,10 @@ This project is being developed as a learning and portfolio initiative to unders
 
 | Item | Status |
 |------|--------|
-| **Version** | `v1.3.0` |
+| **Version** | `v1.4.0` |
 | **Current Phase** | **Phase 3 — Business Operations** |
-| **Latest Release** | **v1.3.0 — Dispatch / Fulfilment Management** |
-| **Current Focus** | **Sprint 3.6 — Invoice Management** |
+| **Latest Release** | **v1.4.0 — Invoice Management** |
+| **Current Focus** | **Sprint 3.7 — Payment Management** |
 | **Development Status** | 🟢 Active |
 
 ---
@@ -62,12 +62,16 @@ This project is being developed as a learning and portfolio initiative to unders
 - ✅ Stock Movement Ledger
 - ✅ Stock Adjustment Management
 
-### Sales
+### Sales & Fulfilment
 
 - ✅ Sales Order Management
 - ✅ Dispatch / Fulfilment Management
-- ⏳ Invoice Management
+
+### Financial
+
+- ✅ Invoice Management
 - ⏳ Payment Management
+- ⏳ Credit Notes
 
 ### Warehouse
 
@@ -75,46 +79,67 @@ This project is being developed as a learning and portfolio initiative to unders
 
 ---
 
-# Current Business Workflow
+# Complete Business Workflow
 
 ```text
+                    PROCUREMENT
+
 Supplier
     │
     ▼
 Purchase Order
     │
     ▼
-Purchase Order Confirmation
+CONFIRMED
     │
     ▼
 Goods Receipt
     │
     ▼
-Inventory Increase
+Inventory (+)
     │
     ▼
 Stock Movement Ledger
-    │
-    ▼
-Stock Adjustment (Optional)
-    │
-    ▼
-Sales Order
-    │
-    ▼
-Sales Order Confirmation
-    │
-    ▼
-Dispatch / Fulfilment
-    │
-    ▼
-Invoice (Next Sprint)
-    │
-    ▼
-Payment
 ```
 
-The application now supports both inbound procurement and outbound fulfilment workflows while maintaining strict separation between commercial intent, warehouse execution, inventory state, and financial processing.
+```text
+                    INVENTORY
+
+Inventory
+    │
+    ├───────────────┐
+    │               │
+    ▼               ▼
+Stock Adjustment   Dispatch
+    │               │
+Inventory (±)   Inventory (-)
+```
+
+```text
+                  ORDER TO CASH
+
+Customer
+     │
+     ▼
+Sales Order
+     │
+     ▼
+CONFIRMED
+     │
+     ▼
+Dispatch
+     │
+     ▼
+FULFILLED
+     │
+     ▼
+Invoice
+     │
+     ▼
+Payment (Next Sprint)
+```
+
+The application now models both physical warehouse operations and financial document workflows while maintaining clear architectural separation between inventory state and financial state.
 
 ---
 
@@ -134,28 +159,27 @@ The application now supports both inbound procurement and outbound fulfilment wo
 ## Goods Receipt
 
 - Partial receipts
-- Multiple receipts per Purchase Order
+- Multiple receipts
 - Automatic inventory creation
 - Automatic inventory updates
 - Automatic stock movement generation
-- Receipt progress tracking
 - Immutable posted receipts
 
 ---
 
 ## Inventory
 
-- Product + Warehouse inventory balances
-- Automatic quantity management
+- Product + Warehouse balances
 - Cross-warehouse visibility
 - Negative inventory prevention
+- Automatic quantity management
 - System-managed inventory state
 
 ---
 
 ## Stock Movement Ledger
 
-Complete immutable audit history for every inventory mutation.
+Immutable audit history for every inventory mutation.
 
 Supported movement types:
 
@@ -175,11 +199,11 @@ Every movement stores:
 
 ## Stock Adjustment
 
-- Inventory increase/decrease
 - Physical count corrections
 - Damage/Loss adjustments
+- Inventory increase/decrease
 - Automatic inventory mutation
-- Automatic stock movement creation
+- Automatic stock movement generation
 - Atomic posting
 
 ---
@@ -187,31 +211,42 @@ Every movement stores:
 ## Sales Order
 
 - Multi-item Sales Orders
-- Customer validation
-- Warehouse validation
+- Customer & Warehouse validation
 - Inventory-aware confirmation
 - Pricing snapshots
 - Tax snapshots
-- Decimal-safe monetary calculations
 - Draft lifecycle
-- Confirmation workflow
+- Decimal-safe calculations
 
-Sales Order confirmation validates inventory but intentionally does **not** mutate inventory.
+Sales Order confirmation validates inventory but intentionally does **not** modify inventory.
 
 ---
 
 ## Dispatch / Fulfilment
 
 - Partial dispatch support
-- Multiple dispatches per Sales Order
+- Multiple dispatches
 - Inventory deduction
 - Automatic SALE_DISPATCH stock movements
 - Dispatch progress tracking
 - Automatic Sales Order fulfilment
-- Immutable dispatch records
-- Atomic warehouse execution
+- Immutable dispatch events
 
-Dispatch is the only outbound business event that physically removes inventory.
+Dispatch is the only outbound warehouse event that physically removes inventory.
+
+---
+
+## Invoice
+
+- Invoice generation from fulfilled Sales Orders
+- Immutable financial snapshots
+- Snapshot pricing & taxation
+- Decimal-safe monetary calculations
+- Draft / Issue / Void lifecycle
+- Independent financial document model
+- Automatic Sales Order invoice tracking
+
+Invoice generation never mutates inventory.
 
 ---
 
@@ -244,16 +279,16 @@ Prisma ORM
 PostgreSQL
 ```
 
-Responsibilities are clearly separated.
+Responsibilities remain clearly separated.
 
-- **Routes** — Endpoint registration
-- **Validators** — Request validation
-- **Controllers** — HTTP orchestration
-- **Services** — Business rules & workflows
-- **Repositories** — Database interaction
-- **Prisma ORM** — Data persistence
+- Routes — Endpoint registration
+- Validators — Request validation
+- Controllers — HTTP orchestration
+- Services — Business rules & workflows
+- Repositories — Database interaction
+- Prisma ORM — Persistence layer
 
-All business workflows are coordinated through service-layer orchestration using atomic Prisma transactions.
+All transactional workflows execute through atomic Prisma transactions coordinated by the service layer.
 
 ---
 
@@ -262,41 +297,40 @@ All business workflows are coordinated through service-layer orchestration using
 ```text
 Master Data
 │
-├── Category               ✅
-├── Brand                  ✅
-├── Unit                   ✅
-├── Tax Rate               ✅
-├── Product                ✅
-├── Supplier               ✅
-├── Customer               ✅
-└── Warehouse              ✅
+├── Category                ✅
+├── Brand                   ✅
+├── Unit                    ✅
+├── Tax Rate                ✅
+├── Product                 ✅
+├── Supplier                ✅
+├── Customer                ✅
+└── Warehouse               ✅
 
-Inbound Operations
+Procurement
 │
-├── Purchase Order         ✅
-│   └── Purchase Items     ✅
-│
-└── Goods Receipt          ✅
-    └── Receipt Items      ✅
+├── Purchase Order          ✅
+└── Goods Receipt           ✅
 
-Inventory Operations
+Inventory
 │
-├── Inventory              ✅
-├── Stock Movement         ✅
-├── Stock Adjustment       ✅
-└── Dispatch               ✅
+├── Inventory               ✅
+├── Stock Movement          ✅
+└── Stock Adjustment        ✅
 
-Outbound Operations
+Sales
 │
-├── Sales Order            ✅
-│   └── Sales Order Items  ✅
-│
-├── Invoice                ⏳
-└── Payment                ⏳
+├── Sales Order             ✅
+└── Dispatch                ✅
 
-Warehouse Operations
+Finance
 │
-└── Stock Transfer         ⏳
+├── Invoice                 ✅
+├── Payment                 ⏳
+└── Credit Note             ⏳
+
+Warehouse
+│
+└── Stock Transfer          ⏳
 ```
 
 ---
@@ -304,35 +338,61 @@ Warehouse Operations
 # Event-Driven Inventory Architecture
 
 ```text
-Supplier
-    │
-    ▼
-Purchase Order
-    │
-    ▼
 Goods Receipt
-    │
-    ▼
+        │
+        ▼
 Inventory (+)
-    │
-    ├──────────────► Stock Adjustment (+/-)
-    │
-    ▼
-Sales Order
-    │
-    ▼
+        │
+        ▼
+PURCHASE_RECEIPT
+
+Stock Adjustment
+        │
+        ▼
+Inventory (±)
+        │
+        ▼
+ADJUSTMENT
+
 Dispatch
-    │
-    ▼
+        │
+        ▼
 Inventory (-)
-    │
-    ▼
-Stock Movement Ledger
+        │
+        ▼
+SALE_DISPATCH
 ```
 
-Every inventory mutation originates from a defined business event.
+Every inventory mutation originates from a business event.
 
 Direct inventory editing is impossible.
+
+---
+
+# Financial Architecture
+
+```text
+Sales Order
+      │
+      ▼
+Invoice
+      │
+      ▼
+Payment
+      │
+      ▼
+Invoice Status
+
+DRAFT
+   │
+ISSUED
+   │
+PARTIALLY_PAID
+   │
+PAID
+```
+
+Financial workflows are intentionally independent of inventory mutations.
 
 ---
 
@@ -343,12 +403,12 @@ Direct inventory editing is impossible.
 | Infrastructure | 3 |
 | Master Data | 24 |
 | Business Entities | 24 |
-| Transactional Modules | 21 |
+| Transactional Modules | 27 |
 | Read-only Modules | 5 |
 
 ## Total Business API Endpoints
 
-**77**
+**83**
 
 ---
 
@@ -403,9 +463,8 @@ This repository emphasizes:
 - Decimal-Safe Financial Calculations
 - Immutable Business Events
 - Immutable Audit Ledgers
-- Controlled Inventory Mutation
 - Event-Driven Inventory
-- Inventory-Aware Validation
+- Controlled Inventory Mutation
 - Professional Git Workflow
 - Conventional Commits
 - Architecture Decision Records (ADR)
@@ -418,13 +477,13 @@ This repository emphasizes:
 
 | Metric | Value |
 |--------|------:|
-| Current Version | `v1.3.0` |
+| Current Version | `v1.4.0` |
 | Completed Phases | 2 |
-| Completed Sprints | 15 |
-| Architecture Decision Records | 17 |
-| Business API Endpoints | 77 |
+| Completed Sprints | 16 |
+| Architecture Decision Records | 19 |
+| Business API Endpoints | 83 |
 | Master Data Modules | 8 |
-| Transactional Modules | 6 |
+| Transactional Modules | 7 |
 | Database | PostgreSQL |
 | ORM | Prisma |
 | Validation | Zod |
@@ -440,20 +499,16 @@ This repository emphasizes:
 - Project Setup
 - Backend Foundation
 
----
-
 ## ✅ Phase 2 — Business Modules
 
-- Category Management
-- Brand Management
-- Unit Management
-- Tax Rate Management
-- Product Management
-- Supplier Management
-- Customer Management
-- Warehouse Management
-
----
+- Category
+- Brand
+- Unit
+- Tax Rate
+- Product
+- Supplier
+- Customer
+- Warehouse
 
 ## 🚧 Phase 3 — Business Operations
 
@@ -472,8 +527,12 @@ This repository emphasizes:
 
 - ✅ Sales Orders
 - ✅ Dispatch / Fulfilment
-- ⏳ Invoice Management
+
+### Finance
+
+- ✅ Invoice Management
 - ⏳ Payment Management
+- ⏳ Credit Notes
 
 ### Warehouse
 
@@ -484,10 +543,10 @@ This repository emphasizes:
 ## ⏳ Phase 4 — Analytics
 
 - Dashboard
-- Business Reports
 - Purchase Analytics
 - Sales Analytics
 - Inventory Analytics
+- Financial Reports
 
 ---
 
@@ -508,18 +567,23 @@ This repository emphasizes:
 
 | Version | Milestone |
 |---------|-----------|
-| `v0.3.0` | Backend Foundation Complete |
-| `v0.4.0` | Business Module Foundation |
-| `v0.5.0` | Master Data Foundation |
-| `v0.6.0` | Core Product Domain |
-| `v0.7.0` | Business Partner Layer |
-| `v0.8.0` | Phase 2 Complete |
-| `v0.8.1` | Phase 3 Transition |
-| `v0.9.0` | Purchase Order Foundation |
-| `v1.0.0` | Goods Receipt, Inventory & Stock Ledger |
-| `v1.1.0` | Stock Adjustment Workflow |
-| `v1.2.0` | Sales Order Management |
-| `v1.3.0` | Dispatch / Fulfilment Management |
+| v0.3.0 | Backend Foundation |
+| v0.4.0 | Business Module Foundation |
+| v0.5.0 | Master Data Foundation |
+| v0.6.0 | Core Product Domain |
+| v0.7.0 | Business Partner Layer |
+| v0.8.0 | Phase 2 Complete |
+| v0.8.1 | Phase 3 Transition |
+| v0.9.0 | Purchase Order Foundation |
+| v1.0.0 | Goods Receipt, Inventory & Stock Ledger |
+| v1.0.1 | Documentation Update |
+| v1.1.0 | Stock Adjustment |
+| v1.1.1 | Documentation Update |
+| v1.2.0 | Sales Order |
+| v1.2.1 | Documentation Update |
+| v1.3.0 | Dispatch / Fulfilment |
+| v1.3.1 | Documentation Update |
+| v1.4.0 | Invoice Management |
 
 ---
 
@@ -549,7 +613,7 @@ The repository includes comprehensive engineering documentation covering:
 - Architecture Documentation
 - API Documentation
 - Business Documentation
-- Architecture Decision Records (17 ADRs)
+- Architecture Decision Records (19 ADRs)
 - Sprint Briefs
 - Sprint Completion Reports
 - Development Workflow
@@ -577,7 +641,7 @@ Navigate into the project:
 cd billing-inventory-system
 ```
 
-Follow the setup guide:
+Follow:
 
 ```text
 docs/setup-instructions.md
@@ -592,16 +656,13 @@ This repository demonstrates:
 - Enterprise ERP Architecture
 - Production-Oriented Backend Development
 - Transactional Business Workflow Modeling
-- Relational Database Design
-- Financial Calculation Safety
 - Event-Driven Inventory Management
-- Inventory State Management
-- Controlled Inventory Mutation
+- Financial Document Architecture
 - Immutable Audit Ledgers
-- REST API Development
-- Domain-Driven Design Principles
-- Professional Engineering Documentation
+- Decimal-Safe Financial Processing
+- Domain-Driven Design
 - Modern Software Engineering Practices
+- Professional Engineering Documentation
 
 ---
 
