@@ -1,4 +1,4 @@
-// API v1 Router — Sprint 3.5
+// API v1 Router — Sprint 3.6
 import { Router, Request, Response } from 'express';
 import { healthController }           from '../../modules/health/health.controller';
 import { healthRoutes }               from '../../modules/health';
@@ -18,6 +18,7 @@ import stockMovementRoutes   from '../../modules/stock-movement/stock-movement.r
 import stockAdjustmentRoutes from '../../modules/stock-adjustment/stock-adjustment.routes';
 import salesOrderRoutes      from '../../modules/sales-order/sales-order.routes';
 import dispatchRoutes        from '../../modules/dispatch/dispatch.routes';
+import invoiceRoutes         from '../../modules/invoice/invoice.routes';
 
 const v1Router = Router();
 
@@ -40,5 +41,6 @@ v1Router.use('/stock-movements',   stockMovementRoutes);
 v1Router.use('/stock-adjustments', stockAdjustmentRoutes);
 v1Router.use('/sales-orders',      salesOrderRoutes);
 v1Router.use('/dispatches',        dispatchRoutes);
+v1Router.use('/invoices',          invoiceRoutes);
 
 export default v1Router;
