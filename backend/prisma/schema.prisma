@@ -1,7 +1,7 @@
 // ================================
 // Prisma Schema
 // Project: Billing & Inventory Management System
-// Sprint: 3.6 -- Invoice Management
+// Sprint: 3.7 -- Payment Management
 // ================================
 
 generator client {
@@ -142,6 +142,7 @@ model Customer {
 
   salesOrders SalesOrder[]
   invoices    Invoice[]
+  payments    Payment[]
 
   @@map("customers")
 }
@@ -248,6 +249,15 @@ enum InvoiceStatus {
   PARTIALLY_PAID
   PAID
   VOID
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
+  UPI
+  CARD
+  CHEQUE
+  OTHER
 }
 
 model PurchaseOrder {
@@ -464,10 +474,6 @@ model DispatchItem {
   @@map("dispatch_items")
 }
 
-// ================================
-// Invoice
-// Sprint: 3.6 -- Invoice Management
-// ================================
 model Invoice {
   id              Int           @id @default(autoincrement())
   invoiceNumber   String        @unique
@@ -485,18 +491,15 @@ model Invoice {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
-  customer    Customer     @relation(fields: [customerId],   references: [id])
-  salesOrder  SalesOrder   @relation(fields: [salesOrderId], references: [id])
-  dispatch    Dispatch     @relation(fields: [dispatchId],   references: [id])
-  items       InvoiceItem[]
+  customer   Customer      @relation(fields: [customerId],   references: [id])
+  salesOrder SalesOrder    @relation(fields: [salesOrderId], references: [id])
+  dispatch   Dispatch      @relation(fields: [dispatchId],   references: [id])
+  items      InvoiceItem[]
+  payments   Payment[]
 
   @@map("invoices")
 }
 
-// ================================
-// InvoiceItem
-// Sprint: 3.6 -- Invoice Management
-// ================================
 model InvoiceItem {
   id             Int      @id @default(autoincrement())
   invoiceId      Int
@@ -516,4 +519,27 @@ model InvoiceItem {
   product Product @relation(fields: [productId], references: [id])
 
   @@map("invoice_items")
+}
+
+// ================================
+// Payment
+// Sprint: 3.7 -- Payment Management
+// ================================
+model Payment {
+  id              Int           @id @default(autoincrement())
+  paymentNumber   String        @unique
+  invoiceId       Int
+  customerId      Int
+  paymentDate     DateTime      @default(now())
+  paymentMethod   PaymentMethod
+  referenceNumber String?
+  amount          Decimal       @db.Decimal(12, 2)
+  notes           String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  invoice  Invoice  @relation(fields: [invoiceId],  references: [id])
+  customer Customer @relation(fields: [customerId], references: [id])
+
+  @@map("payments")
 }
