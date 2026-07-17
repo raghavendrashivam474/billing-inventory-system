@@ -1,8 +1,8 @@
 ﻿# Billing & Inventory Management System
 
-> **A production-oriented full-stack Billing & Inventory Management System that models real-world procurement, inventory, warehousing, sales, fulfilment, billing, and financial workflows using Clean Architecture, Domain-Driven Design, immutable audit trails, and production-ready engineering practices.**
+> **A production-oriented full-stack Billing & Inventory Management System that models real-world procurement, inventory, warehousing, sales, fulfilment, billing, and financial settlement workflows using Clean Architecture, Domain-Driven Design (DDD), immutable audit trails, and production-ready engineering practices.**
 
-This project is being developed as a learning and portfolio initiative to understand how enterprise ERP systems are architected, implemented, tested, documented, and maintained throughout their complete software development lifecycle.
+This project is being developed as a learning and portfolio initiative to understand how modern Enterprise Resource Planning (ERP) systems are architected, implemented, documented, tested, and maintained throughout their complete software development lifecycle.
 
 ---
 
@@ -10,11 +10,27 @@ This project is being developed as a learning and portfolio initiative to unders
 
 | Item | Status |
 |------|--------|
-| **Version** | `v1.4.0` |
+| **Current Version** | `v1.5.0` |
 | **Current Phase** | **Phase 3 — Business Operations** |
-| **Latest Release** | **v1.4.0 — Invoice Management** |
-| **Current Focus** | **Sprint 3.7 — Payment Management** |
-| **Development Status** | 🟢 Active |
+| **Latest Release** | **Payment Management** |
+| **Current Sprint** | **Sprint 3.8 — Stock Transfer Management** |
+| **Project Status** | 🟢 Active Development |
+
+---
+
+# Project Highlights
+
+- ✅ Layered & Modular Architecture
+- ✅ Domain-Driven Design
+- ✅ Clean Service & Repository Pattern
+- ✅ PostgreSQL + Prisma ORM
+- ✅ RESTful Versioned APIs
+- ✅ Immutable Inventory Ledger
+- ✅ Event-Driven Inventory Updates
+- ✅ Decimal-safe Financial Calculations
+- ✅ Production-style Documentation
+- ✅ Architecture Decision Records (ADRs)
+- ✅ Sprint-based Development Process
 
 ---
 
@@ -22,356 +38,349 @@ This project is being developed as a learning and portfolio initiative to unders
 
 ## Foundation
 
-- ✅ Modular Layered Architecture
-- ✅ Versioned REST API
-- ✅ PostgreSQL Integration
-- ✅ Prisma ORM
-- ✅ Environment Configuration
-- ✅ Middleware Pipeline
-- ✅ Global Error Handling
-- ✅ Winston Logging
-- ✅ Production Health API
-- ✅ React Frontend Integration
-- ✅ Comprehensive Engineering Documentation
+- Project Foundation
+- Environment Configuration
+- Global Error Handling
+- Logging with Winston
+- Health Monitoring API
+- Versioned REST APIs
+- Prisma ORM Integration
+- PostgreSQL Database
+- React Frontend Integration
 
 ---
 
 ## Master Data
 
-- ✅ Category Management
-- ✅ Brand Management
-- ✅ Unit Management
-- ✅ Tax Rate Management
-- ✅ Product Management
-- ✅ Supplier Management
-- ✅ Customer Management
-- ✅ Warehouse Management
+- Category Management
+- Brand Management
+- Unit Management
+- Tax Rate Management
+- Product Management
+- Supplier Management
+- Customer Management
+- Warehouse Management
 
 ---
 
-## Business Operations
+## Procurement
 
-### Procurement
-
-- ✅ Purchase Order Management
-- ✅ Goods Receipt Management
-
-### Inventory
-
-- ✅ Inventory Management
-- ✅ Stock Movement Ledger
-- ✅ Stock Adjustment Management
-
-### Sales & Fulfilment
-
-- ✅ Sales Order Management
-- ✅ Dispatch / Fulfilment Management
-
-### Financial
-
-- ✅ Invoice Management
-- ⏳ Payment Management
-- ⏳ Credit Notes
-
-### Warehouse
-
-- ⏳ Stock Transfer
-
----
-
-# Complete Business Workflow
-
-```text
-                    PROCUREMENT
-
-Supplier
-    │
-    ▼
-Purchase Order
-    │
-    ▼
-CONFIRMED
-    │
-    ▼
-Goods Receipt
-    │
-    ▼
-Inventory (+)
-    │
-    ▼
-Stock Movement Ledger
-```
-
-```text
-                    INVENTORY
-
-Inventory
-    │
-    ├───────────────┐
-    │               │
-    ▼               ▼
-Stock Adjustment   Dispatch
-    │               │
-Inventory (±)   Inventory (-)
-```
-
-```text
-                  ORDER TO CASH
-
-Customer
-     │
-     ▼
-Sales Order
-     │
-     ▼
-CONFIRMED
-     │
-     ▼
-Dispatch
-     │
-     ▼
-FULFILLED
-     │
-     ▼
-Invoice
-     │
-     ▼
-Payment (Next Sprint)
-```
-
-The application now models both physical warehouse operations and financial document workflows while maintaining clear architectural separation between inventory state and financial state.
-
----
-
-# Key Capabilities
-
-## Purchase Management
-
-- Multi-item Purchase Orders
-- Supplier & Warehouse validation
-- Purchase lifecycle management
-- Historical pricing snapshots
-- Receipt progress tracking
-- Atomic transactional writes
-
----
-
-## Goods Receipt
-
-- Partial receipts
-- Multiple receipts
-- Automatic inventory creation
-- Automatic inventory updates
-- Automatic stock movement generation
-- Immutable posted receipts
+- Purchase Orders
+- Goods Receipts
+- Partial Receipts
+- Supplier Validation
+- Warehouse Validation
 
 ---
 
 ## Inventory
 
-- Product + Warehouse balances
-- Cross-warehouse visibility
-- Negative inventory prevention
-- Automatic quantity management
-- System-managed inventory state
+- Inventory Management
+- Stock Movement Ledger
+- Stock Adjustments
+- Automatic Inventory Creation
+- Automatic Inventory Updates
+- Negative Inventory Prevention
 
 ---
 
-## Stock Movement Ledger
+## Sales & Fulfilment
 
-Immutable audit history for every inventory mutation.
-
-Supported movement types:
-
-- PURCHASE_RECEIPT
-- ADJUSTMENT_IN
-- ADJUSTMENT_OUT
-- SALE_DISPATCH
-
-Every movement stores:
-
-- Quantity Before
-- Quantity Change
-- Quantity After
-- Business Event Reference
+- Sales Orders
+- Inventory Validation
+- Dispatch Management
+- Partial Dispatch
+- Fulfilment Tracking
 
 ---
 
-## Stock Adjustment
+## Financial
 
-- Physical count corrections
-- Damage/Loss adjustments
-- Inventory increase/decrease
-- Automatic inventory mutation
-- Automatic stock movement generation
-- Atomic posting
-
----
-
-## Sales Order
-
-- Multi-item Sales Orders
-- Customer & Warehouse validation
-- Inventory-aware confirmation
-- Pricing snapshots
-- Tax snapshots
-- Draft lifecycle
-- Decimal-safe calculations
-
-Sales Order confirmation validates inventory but intentionally does **not** modify inventory.
+- Invoice Management
+- Payment Management
+- Outstanding Balance Tracking
+- Partial Payments
+- Multiple Payments
+- Automatic Invoice Settlement
 
 ---
 
-## Dispatch / Fulfilment
+## Upcoming
 
-- Partial dispatch support
-- Multiple dispatches
-- Inventory deduction
-- Automatic SALE_DISPATCH stock movements
-- Dispatch progress tracking
-- Automatic Sales Order fulfilment
-- Immutable dispatch events
-
-Dispatch is the only outbound warehouse event that physically removes inventory.
+- Stock Transfers
+- Credit Notes
+- Business Analytics
+- Reporting Dashboard
 
 ---
 
-## Invoice
-
-- Invoice generation from fulfilled Sales Orders
-- Immutable financial snapshots
-- Snapshot pricing & taxation
-- Decimal-safe monetary calculations
-- Draft / Issue / Void lifecycle
-- Independent financial document model
-- Automatic Sales Order invoice tracking
-
-Invoice generation never mutates inventory.
-
----
-
-# Architecture
-
-The backend follows a layered architecture.
+# Complete ERP Workflow
 
 ```text
-Client
-   │
-   ▼
-Routes
-   │
-   ▼
-Validators (Zod)
-   │
-   ▼
-Controllers
-   │
-   ▼
-Services
-   │
-   ▼
-Repositories
-   │
-   ▼
-Prisma ORM
-   │
-   ▼
-PostgreSQL
+Supplier
+     │
+     ▼
+Purchase Order
+     │
+     ▼
+Goods Receipt
+     │
+     ▼
+Inventory
+     │
+     ▼
+Dispatch
+     │
+     ▼
+Sales Order
+     │
+     ▼
+Invoice
+     │
+     ▼
+Payment
 ```
 
-Responsibilities remain clearly separated.
-
-- Routes — Endpoint registration
-- Validators — Request validation
-- Controllers — HTTP orchestration
-- Services — Business rules & workflows
-- Repositories — Database interaction
-- Prisma ORM — Persistence layer
-
-All transactional workflows execute through atomic Prisma transactions coordinated by the service layer.
+The system intentionally separates **physical inventory operations** from **financial settlement workflows**, following real-world ERP design principles.
 
 ---
 
-# Current Domain Model
+# Business Modules
 
 ```text
 Master Data
 │
-├── Category                ✅
-├── Brand                   ✅
-├── Unit                    ✅
-├── Tax Rate                ✅
-├── Product                 ✅
-├── Supplier                ✅
-├── Customer                ✅
-└── Warehouse               ✅
+├── Category
+├── Brand
+├── Unit
+├── Tax Rate
+├── Product
+├── Supplier
+├── Customer
+└── Warehouse
 
-Procurement
+Business Operations
 │
-├── Purchase Order          ✅
-└── Goods Receipt           ✅
+├── Purchase Order
+├── Goods Receipt
+├── Inventory
+├── Stock Movement
+├── Stock Adjustment
+├── Sales Order
+├── Dispatch
+├── Invoice
+└── Payment
 
-Inventory
+Upcoming
 │
-├── Inventory               ✅
-├── Stock Movement          ✅
-└── Stock Adjustment        ✅
-
-Sales
-│
-├── Sales Order             ✅
-└── Dispatch                ✅
-
-Finance
-│
-├── Invoice                 ✅
-├── Payment                 ⏳
-└── Credit Note             ⏳
-
-Warehouse
-│
-└── Stock Transfer          ⏳
+├── Stock Transfer
+└── Credit Note
 ```
 
 ---
 
-# Event-Driven Inventory Architecture
+# Procurement Workflow
 
 ```text
+Supplier
+
+↓
+
+Purchase Order
+
+↓
+
 Goods Receipt
-        │
-        ▼
-Inventory (+)
-        │
-        ▼
-PURCHASE_RECEIPT
 
-Stock Adjustment
-        │
-        ▼
-Inventory (±)
-        │
-        ▼
-ADJUSTMENT
+↓
 
-Dispatch
-        │
-        ▼
-Inventory (-)
-        │
-        ▼
-SALE_DISPATCH
+Inventory Update
+
+↓
+
+Stock Movement Ledger
 ```
 
-Every inventory mutation originates from a business event.
+---
 
-Direct inventory editing is impossible.
+# Inventory Workflow
+
+```text
+Inventory
+
+├── Goods Receipt (+)
+
+├── Stock Adjustment (±)
+
+└── Dispatch (-)
+```
+
+Every inventory mutation generates an immutable stock movement record.
+
+Direct inventory modification is never allowed.
+
+---
+
+# Order-to-Cash Workflow
+
+```text
+Customer
+
+↓
+
+Sales Order
+
+↓
+
+Dispatch
+
+↓
+
+Invoice
+
+↓
+
+Payment
+
+↓
+
+Accounts Receivable Closed
+```
+
+Inventory changes stop at Dispatch.
+
+Invoices and Payments belong exclusively to the financial domain.
 
 ---
 
 # Financial Architecture
 
 ```text
+Invoice
+
+↓
+
+Outstanding Balance
+
+↓
+
+Partial Payment
+
+↓
+
+Remaining Balance
+
+↓
+
+Paid
+```
+
+Invoice lifecycle
+
+```text
+DRAFT
+
+↓
+
+ISSUED
+
+↓
+
+PARTIALLY_PAID
+
+↓
+
+PAID
+```
+
+---
+
+# Event-Driven Inventory
+
+Inventory changes are driven only through business events.
+
+Supported events:
+
+- PURCHASE_RECEIPT
+- ADJUSTMENT_IN
+- ADJUSTMENT_OUT
+- SALE_DISPATCH
+
+Future:
+
+- TRANSFER_OUT
+- TRANSFER_IN
+
+This guarantees complete inventory traceability.
+
+---
+
+# Architecture
+
+```text
+Client
+
+↓
+
+REST API
+
+↓
+
+Routes
+
+↓
+
+Validators
+
+↓
+
+Controllers
+
+↓
+
+Services
+
+↓
+
+Repositories
+
+↓
+
+Prisma ORM
+
+↓
+
+PostgreSQL
+```
+
+Every layer has a single responsibility.
+
+Business rules live inside the Service Layer.
+
+Database interactions remain isolated within Repositories.
+
+---
+
+# Domain Model
+
+```text
+Supplier
+      │
+      ▼
+Purchase Order
+      │
+      ▼
+Goods Receipt
+      │
+      ▼
+Inventory
+      │
+      ▼
+Dispatch
+
+Customer
+      │
+      ▼
 Sales Order
       │
       ▼
@@ -379,36 +388,24 @@ Invoice
       │
       ▼
 Payment
-      │
-      ▼
-Invoice Status
-
-DRAFT
-   │
-ISSUED
-   │
-PARTIALLY_PAID
-   │
-PAID
 ```
-
-Financial workflows are intentionally independent of inventory mutations.
 
 ---
 
 # API Surface
 
-| Domain | Endpoints |
-|---------|----------:|
-| Infrastructure | 3 |
-| Master Data | 24 |
-| Business Entities | 24 |
-| Transactional Modules | 27 |
-| Read-only Modules | 5 |
+| Module | Status |
+|---------|--------|
+| Infrastructure APIs | ✅ |
+| Master Data APIs | ✅ |
+| Procurement APIs | ✅ |
+| Inventory APIs | ✅ |
+| Sales APIs | ✅ |
+| Financial APIs | ✅ |
 
-## Total Business API Endpoints
+### Total Business APIs
 
-**83**
+**86 REST Endpoints**
 
 ---
 
@@ -432,9 +429,12 @@ Financial workflows are intentionally independent of inventory mutations.
 - PostgreSQL
 - Prisma ORM
 
-## Validation & Financial Processing
+## Validation
 
 - Zod
+
+## Financial Calculations
+
 - decimal.js
 
 ## Infrastructure
@@ -442,53 +442,65 @@ Financial workflows are intentionally independent of inventory mutations.
 - Winston
 - Helmet
 - Morgan
-- CORS
 - UUID
+- CORS
 
 ---
 
 # Engineering Practices
 
-This repository emphasizes:
+The project follows modern engineering principles:
 
 - Clean Architecture
-- Layered Design
 - Domain-Driven Design
-- Aggregate-Oriented Transaction Design
+- Layered Architecture
 - Repository Pattern
 - Service Layer Pattern
 - Atomic Database Transactions
 - REST API Design
-- Historical Data Snapshotting
-- Decimal-Safe Financial Calculations
 - Immutable Business Events
-- Immutable Audit Ledgers
+- Immutable Audit Trails
 - Event-Driven Inventory
-- Controlled Inventory Mutation
-- Professional Git Workflow
+- Snapshot-based Financial Documents
 - Conventional Commits
-- Architecture Decision Records (ADR)
+- Incremental Sprint Development
+- Architecture Decision Records
 - Documentation-First Development
-- Incremental Sprint-Based Development
 
 ---
 
 # Repository Statistics
 
 | Metric | Value |
-|--------|------:|
-| Current Version | `v1.4.0` |
+|---------|------:|
+| Version | v1.5.0 |
 | Completed Phases | 2 |
-| Completed Sprints | 16 |
-| Architecture Decision Records | 19 |
-| Business API Endpoints | 83 |
-| Master Data Modules | 8 |
-| Transactional Modules | 7 |
+| Completed Sprints | 17 |
+| Business Modules | 16 |
+| REST APIs | 86 |
+| ADRs | 20 |
 | Database | PostgreSQL |
 | ORM | Prisma |
 | Validation | Zod |
 | Financial Engine | decimal.js |
-| Logging | Winston |
+
+---
+
+# Repository Structure
+
+```text
+billing-inventory-system/
+
+backend/
+frontend/
+database/
+docs/
+scripts/
+shared/
+
+README.md
+LICENSE
+```
 
 ---
 
@@ -496,19 +508,26 @@ This repository emphasizes:
 
 ## ✅ Phase 1 — Foundation
 
-- Project Setup
 - Backend Foundation
+- Infrastructure
+- Environment Configuration
+- Middleware
+- Database Integration
 
-## ✅ Phase 2 — Business Modules
+---
 
-- Category
-- Brand
-- Unit
-- Tax Rate
-- Product
-- Supplier
-- Customer
-- Warehouse
+## ✅ Phase 2 — Master Data
+
+- Categories
+- Brands
+- Units
+- Tax Rates
+- Products
+- Suppliers
+- Customers
+- Warehouses
+
+---
 
 ## 🚧 Phase 3 — Business Operations
 
@@ -520,32 +539,29 @@ This repository emphasizes:
 ### Inventory
 
 - ✅ Inventory
-- ✅ Stock Movement Ledger
-- ✅ Stock Adjustments
+- ✅ Stock Movement
+- ✅ Stock Adjustment
+- ⏳ Stock Transfer
 
 ### Sales
 
 - ✅ Sales Orders
-- ✅ Dispatch / Fulfilment
+- ✅ Dispatch
 
 ### Finance
 
-- ✅ Invoice Management
-- ⏳ Payment Management
+- ✅ Invoice
+- ✅ Payment
 - ⏳ Credit Notes
-
-### Warehouse
-
-- ⏳ Stock Transfer
 
 ---
 
 ## ⏳ Phase 4 — Analytics
 
 - Dashboard
-- Purchase Analytics
 - Sales Analytics
 - Inventory Analytics
+- Procurement Analytics
 - Financial Reports
 
 ---
@@ -556,52 +572,29 @@ This repository emphasizes:
 - Integration Testing
 - Docker
 - CI/CD
+- Monitoring
 - Performance Optimization
 - Deployment
-- Monitoring
-- Backup & Recovery
 
 ---
 
 # Release History
 
 | Version | Milestone |
-|---------|-----------|
+|-----------|-----------------------------|
 | v0.3.0 | Backend Foundation |
 | v0.4.0 | Business Module Foundation |
 | v0.5.0 | Master Data Foundation |
-| v0.6.0 | Core Product Domain |
-| v0.7.0 | Business Partner Layer |
+| v0.6.0 | Product Domain |
+| v0.7.0 | Business Partners |
 | v0.8.0 | Phase 2 Complete |
-| v0.8.1 | Phase 3 Transition |
-| v0.9.0 | Purchase Order Foundation |
-| v1.0.0 | Goods Receipt, Inventory & Stock Ledger |
-| v1.0.1 | Documentation Update |
-| v1.1.0 | Stock Adjustment |
-| v1.1.1 | Documentation Update |
-| v1.2.0 | Sales Order |
-| v1.2.1 | Documentation Update |
-| v1.3.0 | Dispatch / Fulfilment |
-| v1.3.1 | Documentation Update |
+| v0.9.0 | Purchase Orders |
+| v1.0.0 | Goods Receipt & Inventory |
+| v1.1.0 | Stock Adjustments |
+| v1.2.0 | Sales Orders |
+| v1.3.0 | Dispatch |
 | v1.4.0 | Invoice Management |
-
----
-
-# Repository Structure
-
-```text
-billing-inventory-system/
-│
-├── backend/
-├── frontend/
-├── docs/
-├── database/
-├── scripts/
-├── shared/
-│
-├── LICENSE
-└── README.md
-```
+| **v1.5.0** | **Payment Management** |
 
 ---
 
@@ -609,17 +602,14 @@ billing-inventory-system/
 
 The repository includes comprehensive engineering documentation covering:
 
-- Project Documentation
 - Architecture Documentation
 - API Documentation
 - Business Documentation
-- Architecture Decision Records (19 ADRs)
 - Sprint Briefs
-- Sprint Completion Reports
-- Development Workflow
-- Coding Standards
-- Design Principles
-- Middleware Documentation
+- Sprint Reports
+- ADRs
+- Setup Guides
+- Development Standards
 - Logging Documentation
 - Health API Documentation
 
@@ -629,22 +619,34 @@ Documentation evolves alongside implementation and is treated as a first-class e
 
 # Quick Start
 
-Clone the repository:
+Clone the repository
 
 ```bash
 git clone https://github.com/raghavendrashivam474/billing-inventory-system.git
 ```
 
-Navigate into the project:
+Navigate into the project
 
 ```bash
 cd billing-inventory-system
 ```
 
-Follow:
+Install dependencies
 
-```text
-docs/setup-instructions.md
+```bash
+npm install
+```
+
+Configure environment variables
+
+```bash
+cp .env.example .env
+```
+
+Run the backend
+
+```bash
+npm run dev
 ```
 
 ---
@@ -655,20 +657,19 @@ This repository demonstrates:
 
 - Enterprise ERP Architecture
 - Production-Oriented Backend Development
-- Transactional Business Workflow Modeling
-- Event-Driven Inventory Management
-- Financial Document Architecture
-- Immutable Audit Ledgers
-- Decimal-Safe Financial Processing
 - Domain-Driven Design
-- Modern Software Engineering Practices
-- Professional Engineering Documentation
+- Transactional Workflow Modeling
+- Event-Driven Inventory
+- Financial Document Processing
+- Clean Architecture
+- Production Engineering Practices
+- Professional Documentation
 
 ---
 
 # Contributing
 
-This repository is currently maintained as a learning and portfolio project.
+This project is currently maintained as a learning and portfolio project.
 
 External contributions may be considered after the architecture stabilizes and contribution guidelines are published.
 
